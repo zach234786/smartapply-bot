@@ -1,0 +1,744 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="DataValidation" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="ApplicationNo" Type="InOutArgument(x:String)" />
+    <x:Property Name="RunLog" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="ApplicantProfileIn" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="ValidationPassed" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="FlaggedFields" Type="OutArgument(scg:List(x:String))" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>DataValidation_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>NPOI.Core</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="checks everything readresume pulled out of the pdf before any of it is trusted downstream, flags what is missing, and writes the profile and the run log out to excel" DisplayName="DataValidation - Check Extracted Fields" sap:VirtualizedContainerService.HintSize="894.8000000000001,9469.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch sap2010:Annotation.AnnotationText="on any error, logs message and sets validation_passed = false. this records an error instead of crashing the whole process. " DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="552,9446.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="the validation body. wrapped so a malformed profile table gets reported rather than crashing the run" DisplayName="Try" sap:VirtualizedContainerService.HintSize="550.4,8672.8" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence sap2010:Annotation.AnnotationText="check if fields are valid format " DisplayName="Sequence - Validate Fields" sap:VirtualizedContainerService.HintSize="516.8,8612.8" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="scg:List(x:String)" Default="[New List(Of String)]" Name="Flags" />
+              <Variable x:TypeArguments="x:Boolean" Default="False" Name="NameValid" />
+              <Variable x:TypeArguments="x:Boolean" Default="False" Name="PhoneValid" />
+              <Variable x:TypeArguments="x:Boolean" Default="False" Name="EmailValid" />
+              <Variable x:TypeArguments="x:Boolean" Default="False" Name="ApplicationNoValid" />
+              <Variable x:TypeArguments="x:Int32" Default="0" Name="ApplicationNoInt" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign sap2010:Annotation.AnnotationText="reassign flags as new list to reset them to empty so they dont carry over between runs" sap:VirtualizedContainerService.HintSize="483.2,219.2" sap2010:WorkflowViewState.IdRef="Assign_1">
+              <Assign.To>
+                <OutArgument x:TypeArguments="scg:List(x:String)">[Flags]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String)]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+            <If sap2010:Annotation.AnnotationText="the guard for this whole stage. every check below reads applicantprofilein.rows(0) directly, so if readresume caught an extraction failure and handed back nothing, the first condition would throw a null reference before a single field was checked. testing the table once here means a failed extraction is reported as a clear validation result instead of an unhandled error part way through" DisplayName="If - Applicant Profile Available" Condition="[ApplicantProfileIn IsNot Nothing AndAlso ApplicantProfileIn.Rows.Count > 0 AndAlso RunLog IsNot Nothing]" sap:VirtualizedContainerService.HintSize="483.2,8400" sap2010:WorkflowViewState.IdRef="If_6">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap2010:Annotation.AnnotationText="there is a profile row to check, so every field validation and the excel write can run as normal" DisplayName="Then - Validate The Extracted Profile" sap:VirtualizedContainerService.HintSize="481.6,8200" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                <If DisplayName="If - Email Missing Or Not Found" sap2010:Annotation.AnnotationText="check if email empty/not found " Condition="[ApplicantProfileIn.Rows(0)(&quot;Email&quot;).ToString() = &quot;[NOT FOUND]&quot; Or ApplicantProfileIn.Rows(0)(&quot;Email&quot;).ToString() = &quot;&quot;]" sap:VirtualizedContainerService.HintSize="483.2,1418.4" sap2010:WorkflowViewState.IdRef="If_1">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence sap2010:Annotation.AnnotationText="the email came back empty or as the not found marker, so it is flagged rather than passed on as if it were real" DisplayName="Then - Email Missing" sap:VirtualizedContainerService.HintSize="449.6,727.2" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="if not found/empty assign EmailValid = False" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="Assign_2">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[EmailValid]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <Assign sap2010:Annotation.AnnotationText="add the validity check = false to the flags list" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="Assign_4">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[Flags]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)">[Flags.Concat(New List(Of String) From {"EMAIL: Not found or invalid"}).ToList()]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="add error to the runlog table in excel with timestamp" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;Email Validation&quot;, &quot;WARNING&quot;, &quot;Email&quot;, &quot;Email missing - flagged for review&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="416,256" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddDataRow>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap2010:Annotation.AnnotationText="the email looks usable, so it is recorded as valid and logged" DisplayName="Else - Email Found" sap:VirtualizedContainerService.HintSize="449.6,521.6" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="if no errors, assign email valid true" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="Assign_5">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[EmailValid]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[True]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="add data row to runlog in excel to log successful validation with timestamp" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;Email Validation&quot;, &quot;OK&quot;, &quot;Email&quot;, &quot;Email present and valid&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="416,256" sap2010:WorkflowViewState.IdRef="AddDataRow_2">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddDataRow>
+                    </Sequence>
+                  </If.Else>
+                </If>
+                <If DisplayName="If - Phone Missing Or Not Found" sap2010:Annotation.AnnotationText="if phone missing, flag error and log" Condition="[ApplicantProfileIn.Rows(0)(&quot;Phone&quot;).ToString() = &quot;[NOT FOUND]&quot; Or ApplicantProfileIn.Rows(0)(&quot;Phone&quot;).ToString() = &quot;&quot;]" sap:VirtualizedContainerService.HintSize="483.2,1391.2" sap2010:WorkflowViewState.IdRef="If_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence sap2010:Annotation.AnnotationText="no phone number was matched, which is flagged but not fatal since the application form can still be filled without it" DisplayName="Then - Phone Missing" sap:VirtualizedContainerService.HintSize="449.6,713.6" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="assign phone valid = false if validation fails" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="Assign_6">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[PhoneValid]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <Assign sap2010:Annotation.AnnotationText="add error flagged to the new list of flags" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="Assign_7">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[Flags]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)">[Flags.Concat(New List(Of String) From {"PHONE: Not found"}).ToList()]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="add data to the runlog excel sheet" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;Phone Validation&quot;, &quot;WARNING&quot;, &quot;Phone&quot;, &quot;Phone missing - flagged for review&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="416,242.4" sap2010:WorkflowViewState.IdRef="AddDataRow_3">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddDataRow>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap2010:Annotation.AnnotationText="a phone number was matched so it passes validation" DisplayName="Else - Phone Found" sap:VirtualizedContainerService.HintSize="449.6,508" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="if not, phone passes validation and assign true" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="Assign_8">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[PhoneValid]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[True]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="log message in runlog" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;Phone Validation&quot;, &quot;OK&quot;, &quot;Phone&quot;, &quot;Phone present and valid&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="416,242.4" sap2010:WorkflowViewState.IdRef="AddDataRow_4">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddDataRow>
+                    </Sequence>
+                  </If.Else>
+                </If>
+                <If DisplayName="If - Name Missing Or Too Short" sap2010:Annotation.AnnotationText="if name not found or under 2 chars, fail name validation" Condition="[ApplicantProfileIn.Rows(0)(&quot;Name&quot;).ToString() = &quot;[NOT FOUND]&quot; Or ApplicantProfileIn.Rows(0)(&quot;Name&quot;).ToString().Length &lt; 2]" sap:VirtualizedContainerService.HintSize="483.2,916" sap2010:WorkflowViewState.IdRef="If_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence sap2010:Annotation.AnnotationText="no usable name was found, which matters because the name is required on every application form" DisplayName="Then - Name Missing" sap:VirtualizedContainerService.HintSize="449.6,476" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="assign name namevalid to false to show validation failure" sap:VirtualizedContainerService.HintSize="416,219.2" sap2010:WorkflowViewState.IdRef="Assign_9">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[NameValid]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <Assign sap2010:Annotation.AnnotationText="assign error to the flags list" sap:VirtualizedContainerService.HintSize="416,196.8" sap2010:WorkflowViewState.IdRef="Assign_10">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[Flags]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)">[Flags.Concat(New List(Of String) From {"NAME: Could not be extracted"}).ToList()]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap2010:Annotation.AnnotationText="the name is present and long enough to be real" DisplayName="Else - Name Found" sap:VirtualizedContainerService.HintSize="449.6,270.4" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="if name valid true proceed to check if both email and name valid at the same time" sap:VirtualizedContainerService.HintSize="416,210.4" sap2010:WorkflowViewState.IdRef="Assign_11">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[NameValid]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[True]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                    </Sequence>
+                  </If.Else>
+                </If>
+                <Assign sap2010:Annotation.AnnotationText="turns the number the user typed into an integer, but only when every character is a digit. anything else lands on zero, which the next check treats as invalid, so a bad value can never reach the apply loop" DisplayName="Assign - Parse Application Limit" sap:VirtualizedContainerService.HintSize="483.2,174.4" sap2010:WorkflowViewState.IdRef="Assign_18">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Int32">[ApplicationNoInt]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Int32">[If(ApplicationNo IsNot Nothing AndAlso ApplicationNo.Trim().Length &gt; 0 AndAlso ApplicationNo.Trim().Length &lt;= 3 AndAlso ApplicationNo.Trim().All(Function(c) Char.IsDigit(c)), CInt(ApplicationNo.Trim()), 0)]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign sap2010:Annotation.AnnotationText="zero or less means nothing usable was given, and this flag is what drives the fallback below" DisplayName="Assign - Application Limit Valid Flag" sap:VirtualizedContainerService.HintSize="483.2,174.4" sap2010:WorkflowViewState.IdRef="Assign_21">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[ApplicationNoValid]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">[ApplicationNoInt &gt; 0]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <If sap2010:Annotation.AnnotationText="decides whether to keep the users number or substitute a safe default" DisplayName="If - Application Limit Valid" Condition="[ApplicationNoValid]" sap:VirtualizedContainerService.HintSize="483.2,1378.4" sap2010:WorkflowViewState.IdRef="If_5">
+                  <If.Then>
+                    <Sequence sap2010:Annotation.AnnotationText="the number was usable, so it is simply recorded" DisplayName="Then - Application Limit Accepted" sap:VirtualizedContainerService.HintSize="449.6,445.6" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage sap2010:Annotation.AnnotationText="records the accepted limit so the output panel shows how many applications the bot was told to submit" DisplayName="Log Message - Application Limit Accepted" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;INF_017 | DataValidation | ApplicationNo accepted = &quot; &amp; ApplicationNoInt.ToString()]" />
+                      <ui:AddDataRow sap2010:Annotation.AnnotationText="writes the accepted limit into the runlog so the excel sheet records what the bot was asked to do" DataRow="{x:Null}" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;ApplicationNo Validation&quot;, &quot;OK&quot;, &quot;ApplicationNo&quot;, &quot;INF_017 | ApplicationNo = &quot; &amp; ApplicationNoInt.ToString()}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Application Limit" sap:VirtualizedContainerService.HintSize="416,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_7" />
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap2010:Annotation.AnnotationText="the value was missing or not a number, so a safe default is used instead of stopping the run over it" DisplayName="Else - Application Limit Defaulted" sap:VirtualizedContainerService.HintSize="449.6,794.4" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="falls back to a single application. deliberately conservative, because the wrong way to guess on an action that cannot be undone is upwards" DisplayName="Assign - Default Application Limit To One" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="Assign_19">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[ApplicationNo]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">["1"]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Assign sap2010:Annotation.AnnotationText="adds the substitution to the flags list so the user is told their input was replaced instead of it happening silently" DisplayName="Assign - Flag Defaulted Application Limit" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="Assign_20">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[Flags]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)">[Flags.Concat(New List(Of String) From {"APPLICATIONNO: Invalid or missing, defaulted to 1"}).ToList()]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:LogMessage sap2010:Annotation.AnnotationText="err_013 warns that the value was replaced. a warning rather than an error because the run can safely carry on" DisplayName="Log Message - Application Limit Defaulted" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;WRN_013 | DataValidation | ApplicationNo invalid or missing, defaulted to 1&quot;]" />
+                      <ui:AddDataRow sap2010:Annotation.AnnotationText="records the substitution in the runlog so the excel output explains why only one application went out" DataRow="{x:Null}" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;ApplicationNo Validation&quot;, &quot;WARNING&quot;, &quot;ApplicationNo&quot;, &quot;WRN_013 | Invalid or missing, defaulted to 1&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Application Limit Default" sap:VirtualizedContainerService.HintSize="416,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_8" />
+                    </Sequence>
+                  </If.Else>
+                </If>
+                <If DisplayName="If - Required Fields All Valid" sap2010:Annotation.AnnotationText="check if email and name both valid" Condition="[EmailValid And NameValid]" sap:VirtualizedContainerService.HintSize="483.2,1664.8" sap2010:WorkflowViewState.IdRef="If_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence sap2010:Annotation.AnnotationText="name and email are both good, which is the minimum the application forms need" DisplayName="Then - Validation Passed" sap:VirtualizedContainerService.HintSize="449.6,754.4" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="if all fields have been validated, means validation passed, assign true" sap:VirtualizedContainerService.HintSize="416,219.2" sap2010:WorkflowViewState.IdRef="Assign_12">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[ValidationPassed]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[True]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <ui:LogMessage sap2010:Annotation.AnnotationText="inform the user of data validation success with a log message that doesnt interrupt the process" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,219.2" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;INF_011 | DataValidation | Validation passed&quot;]">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:LogMessage>
+                      <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="input the succeeded validation status into the excel sheet runlog" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;Overall&quot;, &quot;OK&quot;, &quot;All&quot;, &quot;Validation passed&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="416,256" sap2010:WorkflowViewState.IdRef="AddDataRow_5">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddDataRow>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap2010:Annotation.AnnotationText="a required field is missing, so validationpassed goes back false and main skips the apply stage entirely" DisplayName="Else - Validation Failed" sap:VirtualizedContainerService.HintSize="449.6,740.8" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap2010:Annotation.AnnotationText="if name and email not valid, fail validation and assign false" sap:VirtualizedContainerService.HintSize="416,219.2" sap2010:WorkflowViewState.IdRef="Assign_13">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[ValidationPassed]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                        </Assign.Value>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Assign>
+                      <ui:LogMessage sap2010:Annotation.AnnotationText="warn user of the failure without crashing the process" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,219.2" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Warn" Message="[&quot;WRN_012 | DataValidation | Validation failed - required fields missing&quot;]">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:LogMessage>
+                      <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="input error msg into the excel " ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;ValidateData&quot;, &quot;Overall&quot;, &quot;WARNING&quot;, &quot;All&quot;, &quot;Validation failed - required fields missing&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="416,242.4" sap2010:WorkflowViewState.IdRef="AddDataRow_6">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddDataRow>
+                    </Sequence>
+                  </If.Else>
+                </If>
+                <Assign sap2010:Annotation.AnnotationText="set flaggedfields to flags to pass back to main" sap:VirtualizedContainerService.HintSize="483.2,205.6" sap2010:WorkflowViewState.IdRef="Assign_14">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="scg:List(x:String)">[FlaggedFields]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="scg:List(x:String)">[Flags]</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+                <Assign sap2010:Annotation.AnnotationText="writes validation result back to applicantpofile row for Excel " DisplayName="Assign" sap:VirtualizedContainerService.HintSize="483.2,219.2" sap2010:WorkflowViewState.IdRef="Assign_16">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Object">[ApplicantProfileIn.Rows(0)("ValidationPassed")]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Object">[ValidationPassed.ToString()]</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+                <Assign sap2010:Annotation.AnnotationText="writes flagged field names back to applicantprofile row for traceability" sap:VirtualizedContainerService.HintSize="483.2,219.2" sap2010:WorkflowViewState.IdRef="Assign_17">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Object">[ApplicantProfileIn.Rows(0)("FlaggedFields")]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Object">[String.Join("; ", Flags)]</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+                <TryCatch sap2010:Annotation.AnnotationText="the excel write is only a record of what was validated, so it gets its own handler. without this a locked workbook throws into the outer catch, which sets validationpassed to false and stops the bot applying for jobs even though the applicant data was perfectly valid. logging must never be able to veto the process it is logging" DisplayName="Try Catch - Validation Log Write" sap2010:WorkflowViewState.IdRef="TryCatch_Excel_1">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <TryCatch.Try>
+                    <Sequence sap2010:Annotation.AnnotationText="the part that touches the workbook and can therefore fail on a lock" DisplayName="Try" sap2010:WorkflowViewState.IdRef="Sequence_Excel_1">
+    <ui:ExcelApplicationScope sap2010:Annotation.AnnotationText="file path of the excel document" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="483.2,517.6" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="Output (Extraction Log excel)\extraction_log.xlsx">
+                      <ui:ExcelApplicationScope.Body>
+                        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                          </ActivityAction.Argument>
+                          <Sequence sap2010:Annotation.AnnotationText="runs while the extraction log workbook is open, writing both sheets in the one session rather than opening excel twice" DisplayName="Do - Workbook Open" sap:VirtualizedContainerService.HintSize="449.6,353.6" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:ExcelAppendRange sap2010:Annotation.AnnotationText="appends data into applicantprofile sheet in excel" DataTable="[ApplicantProfileIn]" DisplayName="Append Range" sap:VirtualizedContainerService.HintSize="416,151.2" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_1" SheetName="ApplicantProfile">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:ExcelAppendRange>
+                            <ui:ExcelAppendRange sap2010:Annotation.AnnotationText="append data in runlog sheet in excel" DataTable="[RunLog]" DisplayName="Append Range" sap:VirtualizedContainerService.HintSize="416,142.4" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_2" SheetName="RunLog">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:ExcelAppendRange>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ExcelApplicationScope.Body>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:ExcelApplicationScope>
+                    </Sequence>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_Excel_1">
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exLog" />
+                        </ActivityAction.Argument>
+                        <Sequence sap2010:Annotation.AnnotationText="records that the log write failed and lets the run carry on. specialcells method of range class failed almost always means the workbook is still open in excel" DisplayName="Catch - Log Write Failed" sap2010:WorkflowViewState.IdRef="Sequence_Excel_2">
+                          <ui:LogMessage sap2010:Annotation.AnnotationText="err_018 is the validation log failing to write. the validation result itself is untouched, so the bot carries on and logtoexcel will try the same workbook again at the end of the run" DisplayName="Log Message - Validation Log Write Failed" sap2010:WorkflowViewState.IdRef="LogMessage_Excel_1" Level="Warn" Message="[&quot;WRN_018 | DataValidation | Could not write the validation log, continuing anyway. Is extraction_log.xlsx open in Excel? | &quot; &amp; exLog.Message]" />
+                        </Sequence>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                </TryCatch>
+                <Assign sap2010:Annotation.AnnotationText="the rows above have just been written to the runlog sheet, so reset the table to an empty copy of itself. clone keeps the column structure but drops the rows, which means searchjobsweb and logtoexcel append only their own new entries instead of writing these same rows to the sheet a second time" DisplayName="Assign - Reset Run Log After Writing" sap2010:WorkflowViewState.IdRef="Assign_ResetRunLog">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="sd:DataTable">[RunLog]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="sd:DataTable">[RunLog.Clone()]</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:Annotation.AnnotationText="readresume produced no usable profile, so there is nothing to validate. validation is failed explicitly and the reason is flagged, which sends main down its warnings branch and stops the bot applying for jobs on data that was never extracted" DisplayName="Else - No Applicant Data To Validate" sap:VirtualizedContainerService.HintSize="481.6,700" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage sap2010:Annotation.AnnotationText="err_010 means the extraction stage returned nothing at all, which is a different problem from a field being missing and is coded separately so it is obvious in the output which of the two happened" DisplayName="Log Message - No Applicant Data" sap:VirtualizedContainerService.HintSize="448,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Error" Message="[&quot;ERR_010 | DataValidation | ReadResume returned no applicant data, validation could not run&quot;]">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:LogMessage>
+                  <Assign sap2010:Annotation.AnnotationText="validation is failed explicitly rather than left on its default, so the intent is readable rather than implied" DisplayName="Assign - Fail Validation" sap:VirtualizedContainerService.HintSize="448,205.6" sap2010:WorkflowViewState.IdRef="Assign_22">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[ValidationPassed]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign sap2010:Annotation.AnnotationText="records the reason so the message box main shows the user says why nothing could be validated instead of appearing blank" DisplayName="Assign - Flag Missing Profile" sap:VirtualizedContainerService.HintSize="448,205.6" sap2010:WorkflowViewState.IdRef="Assign_23">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="scg:List(x:String)">[Flags]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="scg:List(x:String)">[Flags.Concat(New List(Of String) From {"PROFILE: No applicant data was extracted from the resume, so no fields could be validated"}).ToList()]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign sap2010:Annotation.AnnotationText="hands the flag list back to main on this path too, so the warnings message box is populated" DisplayName="Assign - Return Flagged Fields" sap:VirtualizedContainerService.HintSize="448,205.6" sap2010:WorkflowViewState.IdRef="Assign_24">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="scg:List(x:String)">[FlaggedFields]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="scg:List(x:String)">[Flags]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Else>
+            </If>
+          </Sequence>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="logs exception and sets ValidationPassed to false if any error occurs during validation" DisplayName="Catch - Validation Failed" sap:VirtualizedContainerService.HintSize="550.4,507.2" sap2010:WorkflowViewState.IdRef="Sequence_13">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage sap2010:Annotation.AnnotationText="Logs the unhandled exception message without stopping execution" DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="516.8,219.2" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[&quot;ERR | DataValidation | &quot; + ex.Message]">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:LogMessage>
+              <Assign sap2010:Annotation.AnnotationText="hands back a real list describing what went wrong rather than leaving the argument null. main joins flaggedfields onto extractionerrors to build its warning popup, and joining onto a null list throws value cannot be null parameter first, which would replace the real cause with a meaningless message" DisplayName="Assign - Flagged Fields From Error" sap:VirtualizedContainerService.HintSize="516.8,196.8" sap2010:WorkflowViewState.IdRef="Assign_15b">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="scg:List(x:String)">[FlaggedFields]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String) From {&quot;Validation could not complete: &quot; &amp; ex.Message}]</InArgument>
+                </Assign.Value>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Assign>
+              <Assign sap2010:Annotation.AnnotationText="Assign false because data validation fail" sap:VirtualizedContainerService.HintSize="516.8,196.8" sap2010:WorkflowViewState.IdRef="Assign_15">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Boolean">[ValidationPassed]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                </Assign.Value>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Assign>
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+      <TryCatch.Finally>
+        <Sequence sap2010:Annotation.AnnotationText="nothing to release here. the excel scope closes its own workbook when it ends" DisplayName="Finally" sap:VirtualizedContainerService.HintSize="550.4,89.6" sap2010:WorkflowViewState.IdRef="Sequence_14">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </TryCatch.Finally>
+    </TryCatch>
+  </Sequence>
+</Activity>

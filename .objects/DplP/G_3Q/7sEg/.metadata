@@ -1,0 +1,13 @@
+﻿{
+  "Name": "Chrome Foothold — Job Listings",
+  "Type": "Screen",
+  "Id": "7sEg5pOk1EGfWIYnbExhYA",
+  "Reference": "nWJeAzTILUCO8c8b91lHLg/7sEg5pOk1EGfWIYnbExhYA",
+  "ParentRef": "nWJeAzTILUCO8c8b91lHLg/G_3QIMicG0C4pYR28eCb6w",
+  "Created": "2026-07-23T09:17:07.6634473Z",
+  "Updated": "2026-07-23T09:17:07.6634473Z",
+  "CreatedBy": [
+    "UiPath.UIAutomationCore, Version=25.10.35.0, Culture=neutral, PublicKeyToken=null",
+    "UiPath.Platform, Version=26.4.0.0, Culture=neutral, PublicKeyToken=null"
+  ]
+}

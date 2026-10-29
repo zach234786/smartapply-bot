@@ -1,0 +1,87 @@
+{
+  "name": "SmartApplyBot",
+  "projectId": "da6d6893-3ff6-4ead-aa31-7de50f8000d8",
+  "description": "SmartApply Bot is a robot that will optimise the job application process, taking in the user’s information and preferences, extracting skills from their resume and using them to search through different job postings and storing the data in and Excel Sheet and sending email confirmation via Outlook",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.Excel.Activities": "[3.5.2]",
+    "UiPath.Mail.Activities": "[2.9.10]",
+    "UiPath.PDF.Activities": "[3.25.3]",
+    "UiPath.System.Activities": "[26.6.0]",
+    "UiPath.UIAutomation.Activities": "[25.10.35]",
+    "UiPath.Word.Activities": "[2.5.2]"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "26.0.196.0",
+  "projectVersion": "1.0.4",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": false,
+    "workflowSerialization": "DataContract",
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": false,
+    "pipType": "ChildSession"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [
+      {
+        "fileName": "Main.xaml"
+      },
+      {
+        "fileName": "Workflows\\GetUserPreferences.xaml"
+      },
+      {
+        "fileName": "Workflows\\ReadResume.xaml"
+      },
+      {
+        "fileName": "Workflows\\DataValidation.xaml"
+      },
+      {
+        "fileName": "Workflows\\SearchJobsWeb.xaml"
+      },
+      {
+        "fileName": "Workflows\\WordCoverLetter.xaml"
+      },
+      {
+        "fileName": "Workflows\\SendOutlook.xaml"
+      },
+      {
+        "fileName": "Workflows\\LogtoExcel.xaml"
+      }
+    ],
+    "saveToCloud": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "b8ffe1a8-28cc-480e-8171-95c5a1f6db1a",
+      "input": [],
+      "output": []
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Windows"
+}

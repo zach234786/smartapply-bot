@@ -1,0 +1,780 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="SearchJobsWeb" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd2="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="JobApplications" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="RunLog" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="ResumePathIn" Type="InArgument(x:String)" />
+    <x:Property Name="ApplicantProfileIn" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="ApplicationNoIn" Type="InArgument(x:String)" />
+    <x:Property Name="DatePostedIn" Type="InArgument(x:String)" />
+    <x:Property Name="MinSalaryIn" Type="InArgument(x:String)" />
+    <x:Property Name="EmploymentTypeIn" Type="InArgument(x:String)" />
+    <x:Property Name="JobLevelIn" Type="InArgument(x:String)" />
+    <x:Property Name="JobKeywordsIn" Type="InArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>SearchJobsWeb_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.UIAutomationNext.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models.ExtractData</x:String>
+      <x:String>UiPath.UIAutomationNext.Models.CV</x:String>
+      <x:String>System.Numerics</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.PDF.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>NPOI.Core</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>UiPath.Word.Activities.Design</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="searches the foothold job board using the filters the user chose, ranks what comes back against the skills pulled from their resume, and submits applications for the best matches up to the limit they asked for" DisplayName="SearchJobsWeb - Search, Rank And Apply" sap:VirtualizedContainerService.HintSize="907.6,9986.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="SearchResults" />
+      <Variable x:TypeArguments="s:String[]" Name="MatchedSkills" />
+      <Variable x:TypeArguments="sd:DataTable" Name="SelectedJobs" />
+      <Variable x:TypeArguments="sd:DataTable" Name="Applications" />
+      <Variable x:TypeArguments="x:Boolean" Name="FormExists" />
+      <Variable x:TypeArguments="x:Boolean" Name="NoResultsFound" />
+      <Variable x:TypeArguments="x:String" Default="http://localhost:5000/index.html" Name="SiteURL" />
+      <Variable x:TypeArguments="x:Int32" Default="0" Name="ApplicationNoInt" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch sap2010:Annotation.AnnotationText="wraps the whole browser session. anything that goes wrong is logged as err_301 and swallowed instead of rethrown, so a problem on the job board cannot take down a run that already extracted and validated the resume" DisplayName="Try Catch - Search And Apply Stage" sap:VirtualizedContainerService.HintSize="729.6,9963.2" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="everything that needs the browser open. kept as one block so the finally can close chrome no matter where inside here things stopped" DisplayName="Try" sap:VirtualizedContainerService.HintSize="728,9253.6" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:OpenBrowser AutomaticallyDownloadWebDriver="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" sap2010:Annotation.AnnotationText="opens chrome on the job board. the address comes from the siteurl variable rather than being typed in here, so the site can be moved or rehosted without editing the activity" BrowserType="Chrome" DisplayName="Open Browser - Foothold Job Board" sap:VirtualizedContainerService.HintSize="694.4,9193.6" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" Url="[SiteURL]">
+            <ui:OpenBrowser.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                </ActivityAction.Argument>
+                <Sequence sap2010:Annotation.AnnotationText="runs while the listings page is open. the filters are applied first, then the results are checked, and only then does the bot decide whether there is anything worth applying to" DisplayName="Do - Browser Session Open" sap:VirtualizedContainerService.HintSize="660.8,9044.8" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Delay Duration="00:00:10" sap:VirtualizedContainerService.HintSize="627.2,122.4" sap2010:WorkflowViewState.IdRef="Delay_2" />
+                  <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="types the users keywords into the search box. the site matches these against the job title, the company and each listings own keyword list" DisplayName="Type Into - Search Keywords" sap:VirtualizedContainerService.HintSize="627.2,188" sap2010:WorkflowViewState.IdRef="TypeInto_1" Text="[JobKeywordsIn]">
+                    <ui:TypeInto.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="0d5f834f-112a-4303-96c7-7e9cbd99b2e1" InformativeScreenshot="5999e85a809ea67951d4a8e928b9704c" Selector="&lt;webctrl id='search-keywords' tag='INPUT' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:TypeInto.Target>
+                  </ui:TypeInto>
+                  <ui:SelectItem AlterIfDisabled="{x:Null}" ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" sap2010:Annotation.AnnotationText="picks the job level from the dropdown. select item matches on the visible option text, so the choices offered in getuserpreferences have to be worded exactly as the site writes them. a blank answer is treated as any level rather than passed straight through, because selecting an empty string throws err_301 and takes the whole search down with it" DisplayName="Select Item - Job Level Filter" sap:VirtualizedContainerService.HintSize="627.2,188" sap2010:WorkflowViewState.IdRef="SelectItem_1" Item="[If(String.IsNullOrWhiteSpace(JobLevelIn), &quot;Any level&quot;, JobLevelIn)]">
+                    <ui:SelectItem.Items>
+                      <scg:List x:TypeArguments="x:String" Capacity="8">
+                        <x:String>Any level</x:String>
+                        <x:String>Intern</x:String>
+                        <x:String>Junior</x:String>
+                        <x:String>Executive</x:String>
+                        <x:String>Manager</x:String>
+                        <x:String>Senior Manager</x:String>
+                      </scg:List>
+                    </ui:SelectItem.Items>
+                    <ui:SelectItem.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="ab92f8c9-fe54-4102-9d12-1803955b9853" InformativeScreenshot="40fe2c65db878b02025aa422d1cd8086" Selector="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;&lt;webctrl id='filter-job-level' tag='SELECT' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:SelectItem.Target>
+                  </ui:SelectItem>
+                  <ui:SelectItem AlterIfDisabled="{x:Null}" ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" sap2010:Annotation.AnnotationText="same for employment type, from internship through to contract. any type leaves the filter open, and a blank answer falls back to it so leaving the question unanswered means the user is happy with anything" DisplayName="Select Item - Employment Type Filter" sap:VirtualizedContainerService.HintSize="627.2,188" sap2010:WorkflowViewState.IdRef="SelectItem_2" Item="[If(String.IsNullOrWhiteSpace(EmploymentTypeIn), &quot;Any type&quot;, EmploymentTypeIn)]">
+                    <ui:SelectItem.Items>
+                      <scg:List x:TypeArguments="x:String" Capacity="8">
+                        <x:String>Any type</x:String>
+                        <x:String>Internship</x:String>
+                        <x:String>Part Time</x:String>
+                        <x:String>Full Time</x:String>
+                        <x:String>Contract</x:String>
+                      </scg:List>
+                    </ui:SelectItem.Items>
+                    <ui:SelectItem.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="4ef9db8e-ef1b-4e56-a924-158608aafd06" InformativeScreenshot="21b08604d69dd7591b2429694c73f7d8" Selector="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;&lt;webctrl id='filter-employment-type' tag='SELECT' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:SelectItem.Target>
+                  </ui:SelectItem>
+                  <ui:SelectItem AlterIfDisabled="{x:Null}" ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" sap2010:Annotation.AnnotationText="date posted filter. the site holds these as day counts behind the scenes but matches on the visible text, so the wording is passed through unchanged. a blank answer becomes any time, which is the sites own no date limit option" DisplayName="Select Item - Date Posted Filter" sap:VirtualizedContainerService.HintSize="627.2,188" sap2010:WorkflowViewState.IdRef="SelectItem_3" Item="[If(String.IsNullOrWhiteSpace(DatePostedIn), &quot;Any time&quot;, DatePostedIn)]">
+                    <ui:SelectItem.Items>
+                      <scg:List x:TypeArguments="x:String" Capacity="4">
+                        <x:String>Any time</x:String>
+                        <x:String>Last 24 hours</x:String>
+                        <x:String>Last 7 days</x:String>
+                        <x:String>Last 2 weeks</x:String>
+                      </scg:List>
+                    </ui:SelectItem.Items>
+                    <ui:SelectItem.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="06f0b27a-84c9-49dc-9de8-b8ec2cc71581" InformativeScreenshot="b23733f3cc503fd446ac9991106c0a2c" Selector="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;&lt;webctrl id='filter-date-posted' tag='SELECT' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:SelectItem.Target>
+                  </ui:SelectItem>
+                  <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="minimum salary. the board compares this against the top of each listings salary range, so a job shows up when its maximum clears the number" DisplayName="Type Into - Minimum Salary Filter" sap:VirtualizedContainerService.HintSize="627.2,188" sap2010:WorkflowViewState.IdRef="TypeInto_3" Text="[MinSalaryIn]">
+                    <ui:TypeInto.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="bdc0a58a-e248-4c30-aad0-0dcdb63f3fb3" InformativeScreenshot="aa2d2a440e3021a30e126a3a3e45a30e" Selector="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;&lt;webctrl id='filter-min-salary' tag='INPUT' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:TypeInto.Target>
+                  </ui:TypeInto>
+                  <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" sap2010:Annotation.AnnotationText="submits the filter form. the page rewrites the results list in place instead of navigating, so the next activity has to check what actually came back rather than assuming a new page loaded" ClickType="CLICK_SINGLE" DisplayName="Click - Search Button" sap:VirtualizedContainerService.HintSize="627.2,139.2" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT">
+                    <ui:Click.CursorPosition>
+                      <ui:CursorPosition Position="Center">
+                        <ui:CursorPosition.OffsetX>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:CursorPosition.OffsetX>
+                        <ui:CursorPosition.OffsetY>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:CursorPosition.OffsetY>
+                      </ui:CursorPosition>
+                    </ui:Click.CursorPosition>
+                    <ui:Click.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="ac278b0b-f0eb-496b-9ad1-06d71b305668" InformativeScreenshot="c144f04a8c98916caa273b1b9c9bcbc2" Selector="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;&lt;webctrl id='btn-search' tag='BUTTON' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:Click.Target>
+                  </ui:Click>
+                  <ui:UiElementExists sap2010:Annotation.AnnotationText="looks for the empty state message the site renders when nothing matched. element exists is used rather than counting rows because the results container is always on the page, only its contents change" DisplayName="Element Exists - Empty Results State" Exists="[NoResultsFound]" sap:VirtualizedContainerService.HintSize="627.2,139.2" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+                    <ui:UiElementExists.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="67862b55-d240-4554-926a-4338a45af6cc" InformativeScreenshot="f0aef19245c8b5d9d8d8fb799504c3f6" Selector="&lt;webctrl id='empty-state' tag='DIV' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:UiElementExists.Target>
+                  </ui:UiElementExists>
+                  <If sap2010:Annotation.AnnotationText="branches on whether the search returned anything, so filters that were too narrow end the workflow tidily instead of failing on an empty table further down" Condition="[NoResultsFound]" DisplayName="If - Any Listings Found" sap:VirtualizedContainerService.HintSize="627.2,7644" sap2010:WorkflowViewState.IdRef="If_1">
+                    <If.Then>
+                      <Sequence sap2010:Annotation.AnnotationText="the dead end path. records why nothing happened and lets the workflow finish normally so main still gets an empty table rather than an error" DisplayName="Then - No Listings Matched" sap:VirtualizedContainerService.HintSize="625.6,445.6" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:LogMessage sap2010:Annotation.AnnotationText="warning rather than error, because a search that matches nothing is a normal result of narrow filters and not a fault in the bot" DisplayName="Log Message - No Listings Matched" sap:VirtualizedContainerService.HintSize="592,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Warn" Message="[&quot;No listings matched filters&quot;]" />
+                        <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the empty search in the runlog so the excel output still shows this stage ran and why it stopped" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;SearchJobsWeb&quot;, &quot;SearchResults&quot;, &quot;Info&quot;, &quot;&quot;, &quot;WRN_305 | No listings matched filters&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Empty Search" sap:VirtualizedContainerService.HintSize="592,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence sap2010:Annotation.AnnotationText="the real work. scrapes the results, scores them against the resume, then applies to the best ones" DisplayName="Else - Rank And Apply To Listings" sap:VirtualizedContainerService.HintSize="625.6,7068.8" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <uix:NApplicationCard sap2010:Annotation.AnnotationText="attaches to the chrome window that is already open so the scrape runs against the filtered results, rather than launching a second browser on an unfiltered page" AttachMode="ByInstance" DisplayName="Use Browser - Job Listings Page" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="451.2,396" sap2010:WorkflowViewState.IdRef="NApplicationCard_6" InteractionMode="DebuggerApi" ScopeGuid="8025c555-f520-4aed-81ab-8b42999ea892" Version="V2">
+                          <uix:NApplicationCard.Body>
+                            <ActivityAction x:TypeArguments="x:Object">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+                              </ActivityAction.Argument>
+                              <Sequence sap2010:Annotation.AnnotationText="runs against the already filtered listings page" DisplayName="Do - Listings Page Attached" sap:VirtualizedContainerService.HintSize="449.6,193.6" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <uix:NExtractDataGeneric x:TypeArguments="sd:DataTable" sap2010:Annotation.AnnotationText="scrapes every result card into a datatable. the columns are named title, company, salary and applylink to match the expressions that read them further down, and applylink takes the anchors href attribute rather than its text so the bot gets a real link to follow" ContinueOnError="True" DisplayName="Extract Table Data - Scrape Job Listings" ExtractDataSettings="&lt;Table xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' Type='Structured' AddCvHeader='true' IsScrollEnabled='false'&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column0' Name='Title'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column1' Name='Company'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column2' Name='Salary'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column3' Name='ApplyLink'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;true&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&lt;/Table&gt;" ExtractMetadata="&lt;extract&gt;&lt;row exact='1'&gt;&lt;webctrl tag='article' /&gt;&lt;webctrl tag='div' idx='2' /&gt;&lt;/row&gt;&lt;column exact='1' name='Column0' attr='fulltext'&gt;&lt;webctrl tag='article' /&gt;&lt;webctrl tag='div' idx='2' /&gt;&lt;webctrl tag='div' idx='1' /&gt;&lt;webctrl tag='h2' idx='1' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column1' attr='fulltext'&gt;&lt;webctrl tag='article' /&gt;&lt;webctrl tag='div' idx='2' /&gt;&lt;webctrl tag='div' idx='2' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column2' attr='fulltext'&gt;&lt;webctrl tag='article' /&gt;&lt;webctrl tag='div' idx='2' /&gt;&lt;webctrl tag='div' idx='1' /&gt;&lt;webctrl tag='span' idx='1' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column3' attr='href'&gt;&lt;webctrl tag='article' /&gt;&lt;webctrl tag='div' idx='2' /&gt;&lt;webctrl tag='div' idx='4' /&gt;&lt;webctrl tag='a' idx='1' /&gt;&lt;/column&gt;&lt;/extract&gt;" ExtractedData="[SearchResults]" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,133.6" sap2010:WorkflowViewState.IdRef="NExtractDataGeneric`1_6" LimitExtractionTo="None" MaximumResults="0" ScopeIdentifier="8025c555-f520-4aed-81ab-8b42999ea892" Version="V5">
+                                  <uix:NExtractDataGeneric.Target>
+                                    <uix:TargetAnchorable BrowserURL="http://localhost:8000/index.html" DesignTimeRectangle="306, 466, 1290, 3811" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='job-results' tag='DIV' /&gt;" Guid="86ebfda8-cf67-4d29-9ee6-66ec167c3e1a" InformativeScreenshot="ea3aefd1c9805d43ab767f33fc6e1d5f.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;" SearchSteps="Selector" Version="V6" />
+                                  </uix:NExtractDataGeneric.Target>
+                                </uix:NExtractDataGeneric>
+                              </Sequence>
+                            </ActivityAction>
+                          </uix:NApplicationCard.Body>
+                          <uix:NApplicationCard.OCREngine>
+                            <ActivityFunc x:TypeArguments="sd1:Image, scg:IEnumerable(scg:KeyValuePair(sd2:Rectangle, x:String))">
+                              <ActivityFunc.Argument>
+                                <DelegateInArgument x:TypeArguments="sd1:Image" Name="Image" />
+                              </ActivityFunc.Argument>
+                            </ActivityFunc>
+                          </uix:NApplicationCard.OCREngine>
+                          <uix:NApplicationCard.TargetApp>
+                            <uix:TargetApp Area="-9, -9, 1938, 1038" BrowserType="Chrome" IconBase64="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" InformativeScreenshot="1d29f724a57b591247d6773cc2526271.jpg" Selector="&lt;html app='chrome.exe' title='Foothold — Job Listings' /&gt;" Url="[SiteURL]" Version="V3">
+                              <uix:TargetApp.Arguments>
+                                <InArgument x:TypeArguments="x:String" />
+                              </uix:TargetApp.Arguments>
+                              <uix:TargetApp.WorkingDirectory>
+                                <InArgument x:TypeArguments="x:String" />
+                              </uix:TargetApp.WorkingDirectory>
+                            </uix:TargetApp>
+                          </uix:NApplicationCard.TargetApp>
+                        </uix:NApplicationCard>
+                        <Assign sap2010:Annotation.AnnotationText="converts the number of applications the user typed into an integer so it can cap the take further down. datavalidation normally sanitises this already, but the parse is repeated defensively here so this workflow cannot be crashed by a bad value if it is ever invoked on its own. anything that is not one to three digits and above zero falls back to 1 instead of throwing" DisplayName="Assign - Application Limit As Number" sap:VirtualizedContainerService.HintSize="451.2,174.4" sap2010:WorkflowViewState.IdRef="Assign_1">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">[ApplicationNoInt]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">[If(Not String.IsNullOrWhiteSpace(ApplicationNoIn) AndAlso ApplicationNoIn.Trim().Length &lt;= 3 AndAlso ApplicationNoIn.Trim().All(Function(c) Char.IsDigit(c)) AndAlso CInt(ApplicationNoIn.Trim()) &gt; 0, CInt(ApplicationNoIn.Trim()), 1)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:AddDataColumn x:TypeArguments="x:Object" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" sap2010:Annotation.AnnotationText="adds a score column onto the scraped results. done as an extra column rather than a second table so the listings can be sorted in place" ColumnName="Score" DataTable="[SearchResults]" DisplayName="Add Data Column - Skill Match Score" sap:VirtualizedContainerService.HintSize="451.2,220" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_1" />
+                        <Assign sap2010:Annotation.AnnotationText="splits the comma separated skills string that came off the resume into an array, so each skill can be checked against a job title one at a time" DisplayName="Assign - Split Matched Skills Into Array" sap:VirtualizedContainerService.HintSize="451.2,174.4" sap2010:WorkflowViewState.IdRef="Assign_2">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="s:String[]">[MatchedSkills]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="s:String[]">[ApplicantProfileIn.Rows(0)("SkillsMatched").ToString().Split({", "}, StringSplitOptions.RemoveEmptyEntries)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="walks every scraped listing and scores it, so the ranking is driven by the resume instead of by whatever order the site happened to return" DisplayName="For Each Listing - Score Against Skills" sap:VirtualizedContainerService.HintSize="451.2,356" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[SearchResults.Rows]">
+                          <ui:ForEach.Body>
+                            <ActivityAction x:TypeArguments="sd:DataRow">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                              </ActivityAction.Argument>
+                              <Sequence sap2010:Annotation.AnnotationText="scores a single listing. kept to one activity so the ranking rule lives in exactly one place" DisplayName="Body - Score One Listing" sap:VirtualizedContainerService.HintSize="449.6,225.6" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign sap2010:Annotation.AnnotationText="scores a listing by counting how many of the applicants skills appear in its job title. a plain count is enough here and keeps the ranking simple to explain and easy to defend" DisplayName="Assign - Count Skill Matches In Title" sap:VirtualizedContainerService.HintSize="416,165.6" sap2010:WorkflowViewState.IdRef="Assign_3">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Object">[row("Score")]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Object">[MatchedSkills.Count(Function(sk) row("Title").ToString().ToLower().Contains(sk.ToLower().Trim()))]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ForEach.Body>
+                        </ui:ForEach>
+                        <Assign sap2010:Annotation.AnnotationText="sorts by score and keeps only as many listings as the user asked to apply for, so the bot goes after the best matches rather than the first ones on the page. copytodatatable throws on an empty sequence, so the scrape is checked for rows first and an empty clone is handed back instead. that way a scrape that returned nothing leaves the apply loop with nothing to do rather than crashing the stage" DisplayName="Assign - Take Top Ranked Listings" sap:VirtualizedContainerService.HintSize="451.2,174.4" sap2010:WorkflowViewState.IdRef="Assign_4">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="sd:DataTable">[SelectedJobs]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="sd:DataTable">[If(SearchResults IsNot Nothing AndAlso SearchResults.Rows.Count &gt; 0, SearchResults.AsEnumerable().OrderByDescending(Function(r) r.Field(Of Integer)("Score")).Take(ApplicationNoInt).CopyToDataTable(), New DataTable())]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <If sap2010:Annotation.AnnotationText="compares how many listings actually survived the filters and the ranking against how many the user asked to apply for. only fires when the search came up short, so a normal run where there are enough matches is not interrupted" Condition="[SelectedJobs.Rows.Count &lt; ApplicationNoInt]" DisplayName="If - Fewer Matches Than Requested" sap:VirtualizedContainerService.HintSize="451.2,553.6" sap2010:WorkflowViewState.IdRef="If_5">
+                          <If.Then>
+                            <Sequence sap2010:Annotation.AnnotationText="warns the user, then lets the run carry on with however many listings did match" DisplayName="Then - Fewer Matches Than Requested" sap:VirtualizedContainerService.HintSize="449.6,445.6" sap2010:WorkflowViewState.IdRef="Sequence_35">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:LogMessage sap2010:Annotation.AnnotationText="inf_015 records the shortfall in the output panel so the run record shows why fewer applications went out than were asked for" DisplayName="Log Message - Fewer Matches Than Requested" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn" Message="[&quot;WRN_306 | SearchJobsWeb | Requested &quot; &amp; ApplicationNoInt.ToString() &amp; &quot; applications but only &quot; &amp; SelectedJobs.Rows.Count.ToString() &amp; &quot; listings matched the filters&quot;]" />
+                              <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="writes the same shortfall into the runlog so the excel sheet carries the reason as well" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;SearchJobsWeb&quot;, &quot;SelectedJobs&quot;, &quot;Info&quot;, SelectedJobs.Rows.Count.ToString(), &quot;WRN_306 | SearchJobsWeb | Requested &quot; &amp; ApplicationNoInt.ToString() &amp; &quot; applications but only &quot; &amp; SelectedJobs.Rows.Count.ToString() &amp; &quot; listings matched the filters&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Fewer Matches" sap:VirtualizedContainerService.HintSize="416,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_2" />
+                              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="tells the user up front that the site had fewer suitable listings than they asked for, so a run that submits two applications when four were requested reads as an expected outcome rather than as the bot having failed part way through" AutoCloseAfter="00:00:00" DisplayName="Message Box - Fewer Matches Than Requested" sap:VirtualizedContainerService.HintSize="416,144.8" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Only &quot; &amp; SelectedJobs.Rows.Count.ToString() &amp; &quot; job(s) fit your requirements.&quot; &amp; Environment.NewLine &amp; &quot;You asked to apply to &quot; &amp; ApplicationNoInt.ToString() &amp; &quot;. The bot will apply to the &quot; &amp; SelectedJobs.Rows.Count.ToString() &amp; &quot; that matched.&quot;]" />
+                            </Sequence>
+                          </If.Then>
+                        </If>
+                        <ui:BuildDataTable sap2010:Annotation.AnnotationText="creates the table this workflow hands back, with one column for each thing the excel sheet and the summary email need to show" DataTable="[Applications]" DisplayName="Build Data Table - Application Results" sap:VirtualizedContainerService.HintSize="451.2,92" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Timestamp&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;JobTitle&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Company&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Salary&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;ReferenceNo&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Status&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+                        <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="the apply loop. one pass per selected listing, and each pass is wrapped in its own try catch so one bad listing cannot stop the others" DisplayName="For Each Selected Job - Submit Application" sap:VirtualizedContainerService.HintSize="592,5256" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[SelectedJobs.Rows]">
+                          <ui:ForEach.Body>
+                            <ActivityAction x:TypeArguments="sd:DataRow">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="sd:DataRow" Name="job" />
+                              </ActivityAction.Argument>
+                              <Sequence sap2010:Annotation.AnnotationText="one full application for one listing, from opening its page through to recording the outcome" DisplayName="Body - Apply To One Job" sap:VirtualizedContainerService.HintSize="590.4,5125.6" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <TryCatch sap2010:Annotation.AnnotationText="nested inside the outer handler. keeps any failure contained to the one listing being worked on, so the loop moves to the next job instead of abandoning the whole run" DisplayName="Try Catch - Single Application" sap:VirtualizedContainerService.HintSize="556.8,5065.6" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                                  <TryCatch.Try>
+                                    <Sequence sap2010:Annotation.AnnotationText="the part that can fail. navigating, filling the form and uploading all depend on the page behaving, so they sit inside the per listing handler" DisplayName="Try" sap:VirtualizedContainerService.HintSize="555.2,4398.4" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="x:String" Name="ConfirmResult" />
+                                      </Sequence.Variables>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:NavigateTo Browser="{x:Null}" ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="navigates the browser that open browser above already has open to this listings own page. a modern use browser scope used to sit here. that scope ran its own browser context, so from the second listing on it opened a separate window and navigated that one, while everything below it - the form check, the typing and the submit - kept targeting the original window. the first pass only ever worked because that original window happened to already be sitting on the right page. one classic navigate to inside the one classic scope keeps navigation and form filling on the same window on every pass. the check for http is there because the browser hands applylink back as a full address already, so blindly prefixing the site url would produce a doubled up link" DisplayName="Navigate To - Open Job Detail Page" sap:VirtualizedContainerService.HintSize="521.6,113.6" sap2010:WorkflowViewState.IdRef="NavigateTo_1" Url="[If(job(&quot;ApplyLink&quot;).ToString().StartsWith(&quot;http&quot;), job(&quot;ApplyLink&quot;).ToString(), SiteURL.Substring(0, SiteURL.LastIndexOf(&quot;/&quot;) + 1) &amp; job(&quot;ApplyLink&quot;).ToString())]" />
+                                      <ui:UiElementExists sap2010:Annotation.AnnotationText="confirms the application form actually rendered before anything is typed into it, so a listing that failed to load is caught here instead of as a confusing selector timeout on the next activity" DisplayName="Element Exists - Application Form" Exists="[FormExists]" sap:VirtualizedContainerService.HintSize="521.6,139.2" sap2010:WorkflowViewState.IdRef="UiElementExists_2">
+                                        <ui:UiElementExists.Target>
+                                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="c546f6e1-6baf-42d6-a7a9-0045156b11b3" InformativeScreenshot="40d949b6adcb265d14dcc0fab64f5d8a" Selector="&lt;webctrl id='application-form' tag='FORM' /&gt;">
+                                            <ui:Target.TimeoutMS>
+                                              <InArgument x:TypeArguments="x:Int32" />
+                                            </ui:Target.TimeoutMS>
+                                            <ui:Target.WaitForReady>
+                                              <InArgument x:TypeArguments="ui:WaitForReady" />
+                                            </ui:Target.WaitForReady>
+                                          </ui:Target>
+                                        </ui:UiElementExists.Target>
+                                      </ui:UiElementExists>
+                                      <If sap2010:Annotation.AnnotationText="acts on the result of the element exists above rather than letting it go unused. a listing whose application form never rendered is skipped and recorded here, instead of the bot typing into a page that is not there and failing on a confusing selector timeout part way through filling the form" Condition="[FormExists]" DisplayName="If - Application Form Rendered" sap:VirtualizedContainerService.HintSize="521.6,3823.2" sap2010:WorkflowViewState.IdRef="If_4">
+                                        <If.Then>
+                                          <Sequence sap2010:Annotation.AnnotationText="the form is on the page, so it is safe to fill every field, attach the resume and ask the user whether to submit" DisplayName="Then - Fill And Submit Application" sap:VirtualizedContainerService.HintSize="520,3248" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="fills in the name that was extracted from the resume, so nothing has to be retyped by hand" DisplayName="Type Into - Applicant Name" sap:VirtualizedContainerService.HintSize="486.4,188" sap2010:WorkflowViewState.IdRef="TypeInto_4" Text="[ApplicantProfileIn.Rows(0)(&quot;Name&quot;).ToString()]">
+                                              <ui:TypeInto.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="bdd43fc7-42bd-4e7d-b0ab-0666295b43ee" InformativeScreenshot="c9a97436318bb3fdb1acb642b79d8a57" Selector="&lt;webctrl id='applicant-name' tag='INPUT' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:TypeInto.Target>
+                                            </ui:TypeInto>
+                                            <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="email address, taken from the regex match made during resume extraction" DisplayName="Type Into - Applicant Email" sap:VirtualizedContainerService.HintSize="486.4,188" sap2010:WorkflowViewState.IdRef="TypeInto_5" Text="[ApplicantProfileIn.Rows(0)(&quot;Email&quot;).ToString()]">
+                                              <ui:TypeInto.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="bdd43fc7-42bd-4e7d-b0ab-0666295b43ee" InformativeScreenshot="228861b473e6c684ab92bcdfee619032" Selector="&lt;webctrl id='applicant-email' tag='INPUT' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:TypeInto.Target>
+                                            </ui:TypeInto>
+                                            <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="phone number, matched against a singapore number pattern when the resume was read" DisplayName="Type Into - Applicant Phone" sap:VirtualizedContainerService.HintSize="486.4,188" sap2010:WorkflowViewState.IdRef="TypeInto_6" Text="[ApplicantProfileIn.Rows(0)(&quot;Phone&quot;).ToString()]">
+                                              <ui:TypeInto.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="bdd43fc7-42bd-4e7d-b0ab-0666295b43ee" InformativeScreenshot="18b06689423a04b09f0547a4c9e22e9b" Selector="&lt;webctrl id='applicant-phone' tag='INPUT' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:TypeInto.Target>
+                                            </ui:TypeInto>
+                                            <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="the matched skills, which are also what this listing was scored on, so the form and the ranking tell the same story" DisplayName="Type Into - Applicant Skills" sap:VirtualizedContainerService.HintSize="486.4,188" sap2010:WorkflowViewState.IdRef="TypeInto_7" Text="[ApplicantProfileIn.Rows(0)(&quot;SkillsMatched&quot;).ToString()]">
+                                              <ui:TypeInto.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5dd0a387-c045-49c2-95ea-c2f91c542358" InformativeScreenshot="d758819541e365f01338b0dcfc65bb3e" Selector="&lt;webctrl id='applicant-skills' tag='INPUT' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:TypeInto.Target>
+                                            </ui:TypeInto>
+                                            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" sap2010:Annotation.AnnotationText="clicking the file input hands control to the native windows file picker. that dialog is a separate window and cannot be driven with web selectors, which is why the next few activities work differently to the rest" ClickType="CLICK_SINGLE" DisplayName="Click - Open Resume Upload Dialog" sap:VirtualizedContainerService.HintSize="486.4,139.2" sap2010:WorkflowViewState.IdRef="Click_3" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                              <ui:Click.CursorPosition>
+                                                <ui:CursorPosition Position="Center">
+                                                  <ui:CursorPosition.OffsetX>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:CursorPosition.OffsetX>
+                                                  <ui:CursorPosition.OffsetY>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:CursorPosition.OffsetY>
+                                                </ui:CursorPosition>
+                                              </ui:Click.CursorPosition>
+                                              <ui:Click.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a971f30b-503d-4013-a6b9-5082d0b77772" InformativeScreenshot="ed39b04a626cbdcb89c167f2f7fd0f38" Selector="&lt;webctrl id='resume-upload' tag='INPUT' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:Click.Target>
+                                            </ui:Click>
+                                            <Delay sap2010:Annotation.AnnotationText="pause to let the windows file dialog finish opening and settle. without it the file path can end up typed into the page behind the dialog instead of into the dialog itself. three seconds rather than two because chrome is noticeably slower to build this dialog the first time it is opened in a session" DisplayName="Delay - Wait For File Dialog" Duration="00:00:03" sap:VirtualizedContainerService.HintSize="486.4,122.4" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                                            <ui:TypeInto AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" sap2010:Annotation.AnnotationText="types the full path of the resume into the file name box of the windows dialog. the selector matches the dialogs control structure by class name rather than by control id, because the file name box is a three deep nest of comboboxex32, combobox and edit and matching all three purely on ctrlid is fragile. click before typing forces keyboard focus into the edit first, and empty field clears anything windows left in the box from a previous run so the path cannot be appended onto a stale value" ClickBeforeTyping="True" DisplayName="Type Into - Resume File Path" EmptyField="True" sap:VirtualizedContainerService.HintSize="486.4,188" sap2010:WorkflowViewState.IdRef="TypeInto_8" Text="[ResumePathIn]">
+                                              <ui:TypeInto.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="d27870b3-5452-4c85-8f98-fa0a1836afc1" InformativeScreenshot="7f4ee571a36b2b8cfa03b14c72d0e368" Selector="&lt;wnd app='chrome.exe' cls='#32770' title='Open' /&gt;&lt;wnd cls='ComboBoxEx32' /&gt;&lt;wnd cls='ComboBox' /&gt;&lt;wnd cls='Edit' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:TypeInto.Target>
+                                            </ui:TypeInto>
+                                            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" sap2010:Annotation.AnnotationText="presses open on the file dialog, which attaches the pdf to the form and hands focus back to the page" ClickType="CLICK_SINGLE" DisplayName="Click - Confirm File Dialog" sap:VirtualizedContainerService.HintSize="486.4,139.2" sap2010:WorkflowViewState.IdRef="Click_4" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                              <ui:Click.CursorPosition>
+                                                <ui:CursorPosition Position="Center">
+                                                  <ui:CursorPosition.OffsetX>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:CursorPosition.OffsetX>
+                                                  <ui:CursorPosition.OffsetY>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:CursorPosition.OffsetY>
+                                                </ui:CursorPosition>
+                                              </ui:Click.CursorPosition>
+                                              <ui:Click.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="fd61d75d-6e1b-46d8-9263-ba3980889e35" InformativeScreenshot="259141546f0e6a3f3dc0ce3e1780512c" Selector="&lt;wnd app='chrome.exe' cls='#32770' title='Open' /&gt;&lt;wnd ctrlid='1' title='&amp;amp;Open' /&gt;">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                  <ui:Target.WaitForReady>
+                                                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                  </ui:Target.WaitForReady>
+                                                </ui:Target>
+                                              </ui:Click.Target>
+                                            </ui:Click>
+                                            <ui:MessageBox Caption="{x:Null}" sap2010:Annotation.AnnotationText="the attended checkpoint. the bot stops and asks for a yes or no before submitting a real application, which keeps a person in the loop on the one action in this process that cannot be undone" AutoCloseAfter="00:00:00" Buttons="YesNo" ChosenButton="[ConfirmResult]" DisplayName="Message Box - Confirm Before Submitting" sap:VirtualizedContainerService.HintSize="486.4,122.4" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;Apply to &quot; &amp; job(&quot;Title&quot;).ToString() &amp; &quot; at &quot; &amp; job(&quot;Company&quot;).ToString() &amp; &quot;?&quot;]" />
+                                            <If sap2010:Annotation.AnnotationText="branches on the users answer, so declining a job still records it without anything being sent" Condition="[ConfirmResult.ToString() = &quot;Yes&quot;]" DisplayName="If - User Confirmed Submission" sap:VirtualizedContainerService.HintSize="486.4,1724.8" sap2010:WorkflowViewState.IdRef="If_2">
+                                              <If.Then>
+                                                <Sequence sap2010:Annotation.AnnotationText="only reached once the user has said yes. submits, waits for the confirmation page and captures the reference" DisplayName="Then - Submit And Capture Reference" sap:VirtualizedContainerService.HintSize="484.8,1324" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                                                  <Sequence.Variables>
+                                                    <Variable x:TypeArguments="x:Boolean" Name="SuccessConfirmed" />
+                                                    <Variable x:TypeArguments="x:String" Name="RefNumber" />
+                                                  </Sequence.Variables>
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" sap2010:Annotation.AnnotationText="submits the form, which sends the browser on to the sites confirmation page" ClickType="CLICK_SINGLE" DisplayName="Click - Submit Application" sap:VirtualizedContainerService.HintSize="451.2,139.2" sap2010:WorkflowViewState.IdRef="Click_5" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                                    <ui:Click.CursorPosition>
+                                                      <ui:CursorPosition Position="Center">
+                                                        <ui:CursorPosition.OffsetX>
+                                                          <InArgument x:TypeArguments="x:Int32" />
+                                                        </ui:CursorPosition.OffsetX>
+                                                        <ui:CursorPosition.OffsetY>
+                                                          <InArgument x:TypeArguments="x:Int32" />
+                                                        </ui:CursorPosition.OffsetY>
+                                                      </ui:CursorPosition>
+                                                    </ui:Click.CursorPosition>
+                                                    <ui:Click.Target>
+                                                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="6cd6cb31-8214-470d-8516-84268a2d367d" InformativeScreenshot="86da3df79527b7478de1e4fb8833b553" Selector="&lt;webctrl id='btn-submit-application' tag='BUTTON' /&gt;">
+                                                        <ui:Target.TimeoutMS>
+                                                          <InArgument x:TypeArguments="x:Int32" />
+                                                        </ui:Target.TimeoutMS>
+                                                        <ui:Target.WaitForReady>
+                                                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                        </ui:Target.WaitForReady>
+                                                      </ui:Target>
+                                                    </ui:Click.Target>
+                                                  </ui:Click>
+                                                  <ui:UiElementExists sap2010:Annotation.AnnotationText="confirms the success page genuinely loaded before the bot tries to read a reference number off it" DisplayName="Element Exists - Confirmation Page" Exists="[SuccessConfirmed]" sap:VirtualizedContainerService.HintSize="451.2,139.2" sap2010:WorkflowViewState.IdRef="UiElementExists_3">
+                                                    <ui:UiElementExists.Target>
+                                                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="9e884357-2645-40cc-8664-99694fe00d66" InformativeScreenshot="7ae29c2eeb17c8a807b6d2b70101ef90" Selector="&lt;webctrl id='application-success' tag='DIV' /&gt;">
+                                                        <ui:Target.TimeoutMS>
+                                                          <InArgument x:TypeArguments="x:Int32" />
+                                                        </ui:Target.TimeoutMS>
+                                                        <ui:Target.WaitForReady>
+                                                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                        </ui:Target.WaitForReady>
+                                                      </ui:Target>
+                                                    </ui:UiElementExists.Target>
+                                                  </ui:UiElementExists>
+                                                  <If sap2010:Annotation.AnnotationText="acts on the result of the element exists above instead of assuming the submission worked. only a listing whose success page actually rendered is recorded as submitted, so the excel log and the summary email cannot claim an application that the site never confirmed" Condition="[SuccessConfirmed]" DisplayName="If - Submission Confirmed By Site" sap:VirtualizedContainerService.HintSize="451.2,985.6" sap2010:WorkflowViewState.IdRef="If_3">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <If.Then>
+                                                      <Sequence sap2010:Annotation.AnnotationText="the success page loaded, so the reference number can be trusted and read off it" DisplayName="Then - Capture Reference Number" sap:VirtualizedContainerService.HintSize="449.6,410.4" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                        <ui:GetValue ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="reads the reference the site generates for the submission. this is the evidence the application went through, and it is what ends up in excel and in the summary email" DisplayName="Get Text - Application Reference Number" sap:VirtualizedContainerService.HintSize="416,139.2" sap2010:WorkflowViewState.IdRef="GetValue_1">
+                                                          <ui:GetValue.Target>
+                                                            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="7a0a9806-e0dc-43bb-9006-806d704cd408" InformativeScreenshot="e9482eea4f064b3495f02d2caaf0e52f" Selector="&lt;webctrl id='success-reference' tag='DIV' /&gt;">
+                                                              <ui:Target.TimeoutMS>
+                                                                <InArgument x:TypeArguments="x:Int32" />
+                                                              </ui:Target.TimeoutMS>
+                                                              <ui:Target.WaitForReady>
+                                                                <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                              </ui:Target.WaitForReady>
+                                                            </ui:Target>
+                                                          </ui:GetValue.Target>
+                                                          <ui:GetValue.Value>
+                                                            <OutArgument x:TypeArguments="x:String">[RefNumber]</OutArgument>
+                                                          </ui:GetValue.Value>
+                                                        </ui:GetValue>
+                                                        <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the application with its reference number and a submitted status" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), job(&quot;Title&quot;).ToString(), job(&quot;Company&quot;).ToString(), job(&quot;Salary&quot;).ToString(), RefNumber, &quot;Submitted&quot;}]" DataTable="[Applications]" DisplayName="Add Data Row - Record Submitted Application" sap:VirtualizedContainerService.HintSize="416,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_3" />
+                                                      </Sequence>
+                                                    </If.Then>
+                                                    <If.Else>
+                                                      <Sequence sap2010:Annotation.AnnotationText="the submit click went through but no confirmation page appeared. the listing is still recorded so the log accounts for it, but with no reference and an unconfirmed status so the user knows to check that one by hand" DisplayName="Else - Submission Not Confirmed" sap:VirtualizedContainerService.HintSize="449.6,445.6" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                        <ui:LogMessage sap2010:Annotation.AnnotationText="err_304 means the form was submitted but the site never showed a success page. a warning rather than an error because the loop carries on to the next listing" DisplayName="Log Message - Submission Not Confirmed" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Warn" Message="[&quot;WRN_304 | SearchJobsWeb | No confirmation page after submitting &quot; &amp; job(&quot;Title&quot;).ToString() &amp; &quot; at &quot; &amp; job(&quot;Company&quot;).ToString()]" />
+                                                        <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the listing with an unconfirmed status and no reference number, so the excel log distinguishes a confirmed submission from one that may not have landed" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), job(&quot;Title&quot;).ToString(), job(&quot;Company&quot;).ToString(), job(&quot;Salary&quot;).ToString(), &quot;&quot;, &quot;Submitted - not confirmed&quot;}]" DataTable="[Applications]" DisplayName="Add Data Row - Record Unconfirmed Application" sap:VirtualizedContainerService.HintSize="416,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_6" />
+                                                      </Sequence>
+                                                    </If.Else>
+                                                  </If>
+                                                </Sequence>
+                                              </If.Then>
+                                              <If.Else>
+                                                <Sequence sap2010:Annotation.AnnotationText="reached when the user says no. nothing is submitted but the listing is still recorded so the log is complete" DisplayName="Else - User Declined Submission" sap:VirtualizedContainerService.HintSize="484.8,271.2" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="still records the listing, but with a skipped status and no reference, so the log shows what the bot offered as well as what it actually sent" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), job(&quot;Title&quot;).ToString(), job(&quot;Company&quot;).ToString(), job(&quot;Salary&quot;).ToString(), &quot;&quot;, &quot;Skipped by user&quot;}]" DataTable="[Applications]" DisplayName="Add Data Row - Record Declined Application" sap:VirtualizedContainerService.HintSize="451.2,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_4" />
+                                                </Sequence>
+                                              </If.Else>
+                                            </If>
+                                          </Sequence>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Sequence sap2010:Annotation.AnnotationText="reached when the detail page loaded but its application form did not. nothing is typed and nothing is submitted, but the listing is still recorded so the excel log accounts for every job the bot opened" DisplayName="Else - Application Form Missing" sap:VirtualizedContainerService.HintSize="520,445.6" sap2010:WorkflowViewState.IdRef="Sequence_33">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:LogMessage sap2010:Annotation.AnnotationText="err_303 means the job detail page opened but had no application form on it. a warning rather than an error because the loop is built to move on to the next listing" DisplayName="Log Message - Application Form Missing" sap:VirtualizedContainerService.HintSize="486.4,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Warn" Message="[&quot;WRN_303 | SearchJobsWeb | Application form did not render for &quot; &amp; job(&quot;Title&quot;).ToString() &amp; &quot; at &quot; &amp; job(&quot;Company&quot;).ToString() &amp; &quot; - listing skipped&quot;]" />
+                                            <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the listing with a skipped status and no reference number so the run log shows the bot reached this job but could not apply to it" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), job(&quot;Title&quot;).ToString(), job(&quot;Company&quot;).ToString(), job(&quot;Salary&quot;).ToString(), &quot;&quot;, &quot;Skipped - no application form&quot;}]" DataTable="[Applications]" DisplayName="Add Data Row - Record Missing Form" sap:VirtualizedContainerService.HintSize="486.4,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_7" />
+                                          </Sequence>
+                                        </If.Else>
+                                      </If>
+                                    </Sequence>
+                                  </TryCatch.Try>
+                                  <TryCatch.Catches>
+                                    <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                                      <ActivityAction x:TypeArguments="s:Exception">
+                                        <ActivityAction.Argument>
+                                          <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+                                        </ActivityAction.Argument>
+                                        <Sequence sap2010:Annotation.AnnotationText="handles a failure on one listing without touching the rest of the loop" DisplayName="Catch - Application Failed" sap:VirtualizedContainerService.HintSize="555.2,445.6" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage sap2010:Annotation.AnnotationText="err_302 is a failure on a single listing. logged as a warning rather than an error because the loop is built to carry on to the next job" DisplayName="Log Message - Application Failed" sap:VirtualizedContainerService.HintSize="521.6,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;WRN_302 | SearchJobsWeb | Failed to apply to &quot; &amp; job(&quot;Title&quot;).ToString() &amp; &quot;: &quot; &amp; ex.Message]" />
+                                          <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the listing with a failed status so the excel log accounts for every job the bot attempted, not just the ones that worked" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), job(&quot;Title&quot;).ToString(), job(&quot;Company&quot;).ToString(), job(&quot;Salary&quot;).ToString(), &quot;&quot;, &quot;Failed&quot;}]" DataTable="[Applications]" DisplayName="Add Data Row - Record Failed Application" sap:VirtualizedContainerService.HintSize="521.6,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_5" />
+                                        </Sequence>
+                                      </ActivityAction>
+                                    </Catch>
+                                  </TryCatch.Catches>
+                                  <TryCatch.Finally>
+                                    <Sequence sap2010:Annotation.AnnotationText="left empty on purpose. there is nothing to clean up per listing because the browser is closed once at the end of the workflow, not after every job" DisplayName="Finally" sap:VirtualizedContainerService.HintSize="484.8,89.6" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Sequence>
+                                  </TryCatch.Finally>
+                                </TryCatch>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ForEach.Body>
+                        </ui:ForEach>
+                        <Assign sap2010:Annotation.AnnotationText="hands the finished applications table back to main through the out argument, where logtoexcel and sendoutlook pick it up" DisplayName="Assign - Return Application Results" sap:VirtualizedContainerService.HintSize="451.2,165.6" sap2010:WorkflowViewState.IdRef="Assign_6">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="sd:DataTable">[JobApplications]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="sd:DataTable">[Applications]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </If.Else>
+                  </If>
+                </Sequence>
+              </ActivityAction>
+            </ui:OpenBrowser.Body>
+          </ui:OpenBrowser>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="handles anything that escaped the per listing handler, so the workflow always ends in a known state" DisplayName="Catch - Search Stage Failed" sap:VirtualizedContainerService.HintSize="728,225.6" sap2010:WorkflowViewState.IdRef="Sequence_4">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage sap2010:Annotation.AnnotationText="err_301 catches anything the per listing handler did not, such as the site being unreachable or chrome failing to start. logged without rethrowing so main still reaches the reporting stages" DisplayName="Log Message - Search Stage Failed" sap:VirtualizedContainerService.HintSize="694.4,165.6" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Warn" Message="[&quot;WRN_301 | SearchJobsWeb | &quot; + ex.Message]" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+      <TryCatch.Finally>
+        <Sequence sap2010:Annotation.AnnotationText="always runs, success or failure, which is what guarantees chrome is not left open after the bot finishes" DisplayName="Finally - Always Close Browser" sap:VirtualizedContainerService.HintSize="728,352" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="694.4,292" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+            <ui:CommentOut.Body>
+              <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="449.6,190.4" sap2010:WorkflowViewState.IdRef="Sequence_34">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:CloseApplication sap2010:Annotation.AnnotationText="closes chrome from the finally block so the browser is never left hanging open, whether the run finished cleanly or fell over. the selector title uses wildcards because by the time finally runs, the bot has usually navigated from the listings page through a job detail page to the submitted page, each with its own window title. a selector pinned to the listings page title alone stops matching the moment the browser moves on, which is what was throwing selectornotfoundexception here" DisplayName="Close Application - Close Browser" sap:VirtualizedContainerService.HintSize="416,130.4" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
+                  <ui:CloseApplication.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="ea85ef7f-d46f-4b1f-9bfe-f5fac5156c44" InformativeScreenshot="467b68282e48489372e52d96b688c0a3" Selector="&lt;wnd app='chrome.exe' cls='Chrome_WidgetWin_1' title='*Foothold*' /&gt;&lt;ctrl name='*Foothold*' role='pane' /&gt;&lt;ctrl name='Close' role='push button' /&gt;">
+                      <ui:Target.TimeoutMS>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:Target.TimeoutMS>
+                      <ui:Target.WaitForReady>
+                        <InArgument x:TypeArguments="ui:WaitForReady" />
+                      </ui:Target.WaitForReady>
+                    </ui:Target>
+                  </ui:CloseApplication.Target>
+                </ui:CloseApplication>
+              </Sequence>
+            </ui:CommentOut.Body>
+          </ui:CommentOut>
+        </Sequence>
+      </TryCatch.Finally>
+    </TryCatch>
+  </Sequence>
+</Activity>

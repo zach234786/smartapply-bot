@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Run SmartApply Bot</title>
+<style>
+  body {
+    font-family: -apple-system, Segoe UI, Arial, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  p.sub { color: #94a3b8; margin-top: 0; margin-bottom: 32px; }
+  button {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 16px 40px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  button:hover:not(:disabled) { background: #1d4ed8; }
+  button:disabled { background: #334155; cursor: default; }
+  #status {
+    margin-top: 28px;
+    min-height: 24px;
+    font-size: 15px;
+  }
+  .ok { color: #4ade80; }
+  .err { color: #f87171; }
+  .pending { color: #facc15; }
+  pre {
+    margin-top: 16px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 640px;
+    width: 100%;
+    overflow-x: auto;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+  <h1>SmartApply Bot</h1>
+  <p class="sub">Trigger a live run via the Orchestrator API trigger</p>
+  <button id="runBtn">Run SmartApply Bot</button>
+  <div id="status"></div>
+  <pre id="output" style="display:none"></pre>
+
+<script>
+const btn = document.getElementById("runBtn");
+const statusEl = document.getElementById("status");
+const outputEl = document.getElementById("output");
+
+function setStatus(text, cls) {
+  statusEl.textContent = text;
+  statusEl.className = cls || "";
+}
+
+function showOutput(obj) {
+  outputEl.style.display = "block";
+  outputEl.textContent = JSON.stringify(obj, null, 2);
+}
+
+btn.addEventListener("click", async () => {
+  btn.disabled = true;
+  outputEl.style.display = "none";
+  setStatus("Firing trigger...", "pending");
+  try {
+    const res = await fetch("/run", { method: "POST" });
+    const data = await res.json();
+    if (data.ok) {
+      setStatus("Trigger fired successfully.", "ok");
+      showOutput(data.result);
+    } else {
+      setStatus("Failed: " + data.error, "err");
+    }
+  } catch (err) {
+    setStatus("Failed: " + err.message, "err");
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Job Listings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">Foothold</span>
+      <span class="brand__tag">early-career jobs, SG</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">Listings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-intro">
+    <h1>Find your next role</h1>
+    <p>Search and filter internships and entry-level openings across Singapore. New postings are marked with a green rail on the left.</p>
+  </div>
+
+  <form class="filter-bar" id="filter-form" autocomplete="off">
+    <div class="field">
+      <label for="search-keywords">Keywords</label>
+      <input type="text" id="search-keywords" name="search-keywords" placeholder="e.g. Data Analyst, Python" />
+    </div>
+    <div class="field">
+      <label for="filter-job-level">Job level</label>
+      <select id="filter-job-level" name="filter-job-level">
+        <option value="">Any level</option>
+        <option value="Intern">Intern</option>
+        <option value="Junior">Junior</option>
+        <option value="Executive">Executive</option>
+        <option value="Manager">Manager</option>
+        <option value="Senior Manager">Senior Manager</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="filter-employment-type">Employment type</label>
+      <select id="filter-employment-type" name="filter-employment-type">
+        <option value="">Any type</option>
+        <option value="Internship">Internship</option>
+        <option value="Part Time">Part Time</option>
+        <option value="Full Time">Full Time</option>
+        <option value="Contract">Contract</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="filter-date-posted">Date posted</label>
+      <select id="filter-date-posted" name="filter-date-posted">
+        <option value="">Any time</option>
+        <option value="1">Last 24 hours</option>
+        <option value="7">Last 7 days</option>
+        <option value="14">Last 2 weeks</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="filter-min-salary">Min. salary</label>
+      <input type="number" id="filter-min-salary" name="filter-min-salary" placeholder="e.g. 3000" min="0" step="100" />
+    </div>
+    <button type="submit" class="btn btn-primary" id="btn-search">Search</button>
+  </form>
+
+  <p class="results-meta" id="results-count">Showing all listings</p>
+
+  <div class="job-list" id="job-results"></div>
+</main>
+
+<footer class="site-footer">
+  Foothold is a demo job board built for RPA testing purposes. No real applications are transmitted.
+</footer>
+
+<script src="jobs-data.js"></script>
+<script>
+  const resultsEl = document.getElementById("job-results");
+  const countEl = document.getElementById("results-count");
+  const form = document.getElementById("filter-form");
+
+  function renderJobs(jobs) {
+    resultsEl.innerHTML = "";
+
+    if (jobs.length === 0) {
+      resultsEl.innerHTML = '<div class="empty-state" id="empty-state">No listings match those filters. Try widening your search.</div>';
+      countEl.textContent = "0 results";
+      return;
+    }
+
+    countEl.textContent = jobs.length + (jobs.length === 1 ? " result" : " results");
+
+    jobs.forEach(function (job) {
+      const daysAgo = job.postedDaysAgo;
+      const rail = freshnessClass(daysAgo);
+      const card = document.createElement("article");
+      card.className = "job-card";
+      card.id = "job-card-" + job.id;
+      card.innerHTML =
+        '<div class="job-card__rail ' + rail + '"></div>' +
+        '<div class="job-card__body">' +
+          '<div class="job-card__top">' +
+            '<h2 class="job-card__title">' + job.title + '</h2>' +
+            '<span class="job-card__salary">' + formatSalary(job) + '</span>' +
+          '</div>' +
+          '<div class="job-card__company">' + job.company + ' &middot; ' + job.location + '</div>' +
+          '<p class="job-card__desc">' + job.description + '</p>' +
+          '<div class="job-card__meta">' +
+            '<span class="badge">' + job.level + '</span>' +
+            '<span class="badge">' + job.type + '</span>' +
+            '<span class="badge badge-posted">Posted ' + formatPostedDate(job.postedDate) + '</span>' +
+          '</div>' +
+          '<div class="job-card__footer">' +
+            '<a class="apply-link" id="apply-link-' + job.id + '" href="job-detail.html?id=' + job.id + '">View &amp; apply &rarr;</a>' +
+          '</div>' +
+        '</div>';
+      resultsEl.appendChild(card);
+    });
+  }
+
+  // --- keyword matching ---
+  // Keywords arrive as a comma-separated string ("Data Analyst, Python") --
+  // that is the format the bot types, and the same format the workflows
+  // split on. Commas and spaces are both separators, never literal text to
+  // match. A job matches when every term appears somewhere in it, in any
+  // order, so "Data, Python" and "Python Data" give the same results.
+  function matchesKeywords(haystack, query) {
+    const terms = query.toLowerCase().split(/[,\s]+/).filter(function (term) {
+      return term !== "";
+    });
+    const hay = haystack.toLowerCase();
+    return terms.every(function (term) {
+      return hay.indexOf(term) !== -1;
+    });
+  }
+  // --- end keyword matching ---
+
+  function applyFilters() {
+    const keywords = document.getElementById("search-keywords").value;
+    const level = document.getElementById("filter-job-level").value;
+    const type = document.getElementById("filter-employment-type").value;
+    const datePosted = document.getElementById("filter-date-posted").value;
+    const minSalary = document.getElementById("filter-min-salary").value;
+
+    let filtered = JOBS.filter(function (job) {
+      const haystack = job.title + " " + job.company + " " + job.keywords.join(" ");
+      if (!matchesKeywords(haystack, keywords)) return false;
+      if (level && job.level !== level) return false;
+      if (type && job.type !== type) return false;
+      if (datePosted && job.postedDaysAgo > parseInt(datePosted, 10)) return false;
+      if (minSalary && job.salaryMax < parseInt(minSalary, 10)) return false;
+      return true;
+    });
+
+    filtered.sort(function (a, b) { return a.postedDaysAgo - b.postedDaysAgo; });
+    renderJobs(filtered);
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    applyFilters();
+  });
+
+  // Initial render: all jobs, freshest first
+  applyFilters();
+</script>
+
+</body>
+</html>

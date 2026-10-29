@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Application Submitted</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">Foothold</span>
+      <span class="brand__tag">early-career jobs, SG</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">Listings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="success-panel" id="application-success">
+    <div class="success-check" aria-hidden="true">&#10003;</div>
+    <h1 id="success-heading">Application submitted</h1>
+    <p class="success-detail" id="success-job-line"></p>
+    <div class="success-ref" id="success-reference"></div>
+    <p class="success-detail">A confirmation has been sent to your email. You can track this application in your records.</p>
+    <p style="margin-top: 24px;"><a href="index.html" class="btn btn-secondary" id="btn-back-to-listings">Back to listings</a></p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Foothold is a demo job board built for RPA testing purposes. No real applications are transmitted.
+</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref") || "FH-000000";
+  const jobTitle = params.get("job") || "the role";
+  const company = params.get("company") || "";
+  const name = params.get("name") || "";
+
+  document.getElementById("success-reference").textContent = ref;
+  document.getElementById("success-job-line").textContent =
+    (name ? name + ", your" : "Your") + " application for " + jobTitle +
+    (company ? " at " + company : "") + " has been received.";
+</script>
+
+</body>
+</html>

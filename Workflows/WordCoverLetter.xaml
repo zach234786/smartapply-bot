@@ -1,0 +1,586 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="WordCoverLetter" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uw="http://schemas.uipath.com/workflow/activities/word" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="the applicant details pulled out of the resume by readresume. supplies the name, email, phone and skills that get written into every letter" Name="ApplicantProfileIn" Type="InArgument(sd:DataTable)" />
+    <x:Property sap2010:Annotation.AnnotationText="the table searchjobsweb hands back. only the rows marked submitted get a letter, because a job the user declined does not need one" Name="JobApplicationsIn" Type="InArgument(sd:DataTable)" />
+    <x:Property sap2010:Annotation.AnnotationText="path to the word template holding the placeholder tokens. passed in rather than hardcoded so the template can be moved without editing this workflow" Name="TemplatePathIn" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="every letter written on this run, in the order the jobs were applied for. main feeds this into sendoutlook so all of them travel with the summary email rather than just the top ranked one" Name="CoverLetterPathsOut" Type="OutArgument(scg:List(x:String))" />
+    <x:Property sap2010:Annotation.AnnotationText="how many letters were written. used in the log so the run record shows word actually did work" Name="CoverLetterCountOut" Type="OutArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="the shared run log. every letter written or failed is recorded here so the excel output covers the word stage too" Name="RunLog" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>WordCoverLetter_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>UiPath.Word</x:String>
+      <x:String>UiPath.Word.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Word.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Word</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="the word stage. takes the jobs that were actually submitted and turns the template into one finished cover letter per job, so the user has a tailored letter for every application instead of writing each one by hand" DisplayName="WordCoverLetter - Generate Cover Letters" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Default="" Name="OutputFolder" />
+      <Variable x:TypeArguments="x:String" Default="" Name="ApplicantName" />
+      <Variable x:TypeArguments="x:String" Default="" Name="ApplicantEmail" />
+      <Variable x:TypeArguments="x:String" Default="" Name="ApplicantPhone" />
+      <Variable x:TypeArguments="x:String" Default="" Name="ApplicantSkills" />
+      <Variable x:TypeArguments="x:String" Default="" Name="LetterDate" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[New List(Of String)]" Name="GeneratedLetters" />
+      <Variable x:TypeArguments="x:Int32" Default="0" Name="LetterCount" />
+      <Variable x:TypeArguments="scg:List(sd:DataRow)" Name="SubmittedJobs" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch sap2010:Annotation.AnnotationText="the whole word stage is wrapped so a failure here can never cost the user their email or their excel log. the letters are a bonus on top of the applications that were already submitted, so this stage records what went wrong and lets the process carry on" DisplayName="Try Catch - Word Cover Letter Stage" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="reads the applicant details once, then writes one letter per submitted job" DisplayName="Try" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign sap2010:Annotation.AnnotationText="creates the cover letters folder and hands back its full path in one step. createdirectory is safe to call when the folder already exists, so a second run does not fail here" DisplayName="Assign - Create Output Folder" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[OutputFolder]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[System.IO.Directory.CreateDirectory(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), &quot;Output (Cover Letters)&quot;)).FullName]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="the name for the letterhead and the signoff, falling back to a generic word so a missing name never leaves a raw placeholder in the finished letter" DisplayName="Assign - Applicant Name" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[ApplicantName]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(ApplicantProfileIn IsNot Nothing AndAlso ApplicantProfileIn.Rows.Count &gt; 0, ApplicantProfileIn.Rows(0)(&quot;Name&quot;).ToString(), &quot;Applicant&quot;)]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="contact email for the letterhead and the closing paragraph" DisplayName="Assign - Applicant Email" sap2010:WorkflowViewState.IdRef="Assign_3">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[ApplicantEmail]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(ApplicantProfileIn IsNot Nothing AndAlso ApplicantProfileIn.Rows.Count &gt; 0, ApplicantProfileIn.Rows(0)(&quot;Email&quot;).ToString(), &quot;&quot;)]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="contact number for the letterhead" DisplayName="Assign - Applicant Phone" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[ApplicantPhone]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(ApplicantProfileIn IsNot Nothing AndAlso ApplicantProfileIn.Rows.Count &gt; 0, ApplicantProfileIn.Rows(0)(&quot;Phone&quot;).ToString(), &quot;&quot;)]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="the same skills string the ranking was based on, so the letter argues the case using the exact skills that won the job its place in the shortlist" DisplayName="Assign - Applicant Skills" sap2010:WorkflowViewState.IdRef="Assign_5">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[ApplicantSkills]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(ApplicantProfileIn IsNot Nothing AndAlso ApplicantProfileIn.Rows.Count &gt; 0, ApplicantProfileIn.Rows(0)(&quot;SkillsMatched&quot;).ToString(), &quot;a range of relevant skills&quot;)]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="dated once before the loop so every letter in a single run carries the same date" DisplayName="Assign - Letter Date" sap2010:WorkflowViewState.IdRef="Assign_6">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[LetterDate]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[DateTime.Now.ToString(&quot;d MMMM yyyy&quot;)]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="filters the applications down to the ones that actually went through. a job the user declined at the confirm prompt gets no letter, so the folder only ever holds letters the user can really send" DisplayName="Assign - Select Submitted Jobs" sap2010:WorkflowViewState.IdRef="Assign_7">
+            <Assign.To>
+              <OutArgument x:TypeArguments="scg:List(sd:DataRow)">[SubmittedJobs]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="scg:List(sd:DataRow)">[If(JobApplicationsIn Is Nothing, New List(Of System.Data.DataRow), JobApplicationsIn.Select(&quot;Status = 'Submitted'&quot;).ToList())]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <If sap2010:Annotation.AnnotationText="the template is the one thing this stage cannot work without, so it is checked before word is ever opened. a missing template is reported as a warning and the process carries on rather than throwing" Condition="[System.IO.File.Exists(TemplatePathIn)]" DisplayName="If - Template Exists" sap2010:WorkflowViewState.IdRef="If_1">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence sap2010:Annotation.AnnotationText="template found, so one letter is produced for each submitted job" DisplayName="Then - Generate Letters" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="one pass per submitted job. each pass copies the template and fills the copy, so the template itself is never touched and the bot can be run again and again without the placeholders being used up" DisplayName="For Each Submitted Job - Write Cover Letter" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[SubmittedJobs]">
+                  <ui:ForEach.Body>
+                    <ActivityAction x:TypeArguments="sd:DataRow">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="sd:DataRow" Name="job" />
+                      </ActivityAction.Argument>
+                      <Sequence sap2010:Annotation.AnnotationText="everything needed to turn the template into one finished letter for this particular job" DisplayName="Body - One Cover Letter" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                        <Sequence.Variables>
+                          <Variable x:TypeArguments="x:String" Default="" Name="LetterPath" />
+                          <Variable x:TypeArguments="x:String" Default="" Name="SafeCompany" />
+                          <Variable x:TypeArguments="x:String" Default="" Name="SafeReference" />
+                        </Sequence.Variables>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <TryCatch sap2010:Annotation.AnnotationText="each letter gets its own handler so one company name that word chokes on cannot stop the remaining letters from being written" DisplayName="Try Catch - Single Letter" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <TryCatch.Try>
+                            <Sequence sap2010:Annotation.AnnotationText="copy the template, then fill the copy in word" DisplayName="Try" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign sap2010:Annotation.AnnotationText="strips out anything that is not a letter or a digit so a company name like o'brien and co. cannot produce an illegal filename" DisplayName="Assign - Safe Company Name" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[SafeCompany]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(job(&quot;Company&quot;).ToString(), &quot;[^A-Za-z0-9]&quot;, &quot;&quot;)]</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                              <Assign sap2010:Annotation.AnnotationText="the foothold reference number cleaned the same way, so every letter has a filename that ties it back to a specific application" DisplayName="Assign - Safe Reference Number" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[SafeReference]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(job(&quot;ReferenceNo&quot;).ToString(), &quot;[^A-Za-z0-9]&quot;, &quot;&quot;)]</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                              <Assign sap2010:Annotation.AnnotationText="names the letter after the company and the reference so the user can tell at a glance which letter belongs to which application" DisplayName="Assign - Letter File Path" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[LetterPath]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(OutputFolder, &quot;CoverLetter_&quot; &amp; SafeCompany &amp; &quot;_&quot; &amp; SafeReference &amp; &quot;.docx&quot;)]</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                              <ui:CopyFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="works on a copy rather than the template itself. this is what makes the stage repeatable, because replacing text is destructive and a template whose placeholders had been overwritten would be useless on the next run" Destination="[LetterPath]" DisplayName="Copy File - Template to New Letter" Overwrite="True" Path="[TemplatePathIn]" sap2010:WorkflowViewState.IdRef="CopyFile_1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:CopyFile>
+                              <Sequence sap2010:Annotation.AnnotationText="swaps every placeholder token in the copied letter for the real value. these are the file based word activities rather than the interop ones, so no winword process is started and the stage cannot be broken by word already being open. the tokens are double braced so they cannot collide with ordinary words in the letter" DisplayName="Sequence - Fill Placeholders" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="the applicant name, which appears in both the letterhead and the signoff" DisplayName="Replace Text - Name" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_1">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{Name}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[ApplicantName]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="appears in the letterhead and again in the closing paragraph as a contact route" DisplayName="Replace Text - Email" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_2">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{Email}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[ApplicantEmail]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="the contact number from the resume" DisplayName="Replace Text - Phone" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_3">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{Phone}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[ApplicantPhone]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="dates the letter so it reads as written on the day the application went out" DisplayName="Replace Text - Date" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_4">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{Date}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[LetterDate]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="the company is what makes each letter specific rather than generic. it appears three times in the template, in the address block and twice in the body" DisplayName="Replace Text - Company" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_5">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{Company}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[job(&quot;Company&quot;).ToString()]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="the exact job title as it appeared on the listing, so the letter names the role the user actually applied for" DisplayName="Replace Text - JobTitle" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_6">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{JobTitle}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[job(&quot;JobTitle&quot;).ToString()]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              <uw:DocumentReplaceText sap2010:Annotation.AnnotationText="the skills readresume pulled out of the pdf. this is the line that connects the resume back to the letter, so the argument the letter makes is grounded in what the applicant actually wrote" DisplayName="Replace Text - Skills" FilePath="[LetterPath]" sap2010:WorkflowViewState.IdRef="DocumentReplaceText_7">
+                                <uw:DocumentReplaceText.Search>
+                                  <InArgument x:TypeArguments="x:String">[&quot;{{Skills}}&quot;]</InArgument>
+                                </uw:DocumentReplaceText.Search>
+                                <uw:DocumentReplaceText.Replace>
+                                  <InArgument x:TypeArguments="x:String">[ApplicantSkills]</InArgument>
+                                </uw:DocumentReplaceText.Replace>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </uw:DocumentReplaceText>
+                              </Sequence>
+                              <Assign sap2010:Annotation.AnnotationText="counts the letters that were written rather than the jobs that were looped over, so a letter that failed does not inflate the total" DisplayName="Assign - Increment Letter Count" sap2010:WorkflowViewState.IdRef="Assign_11">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[LetterCount]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[LetterCount + 1]</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                              <Assign sap2010:Annotation.AnnotationText="collects the path of every letter that was actually written, so the email can attach all of them rather than only the best matched job. this sits after the replacements on purpose, so a letter that failed part way through never ends up in the attachment list" DisplayName="Assign - Collect Letter Path" sap2010:WorkflowViewState.IdRef="Assign_12">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="scg:List(x:String)">[GeneratedLetters]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="scg:List(x:String)">[GeneratedLetters.Concat(New String(){LetterPath}).ToList()]</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                              <ui:LogMessage sap2010:Annotation.AnnotationText="one line per letter in the output panel so the stage can be followed while it runs" DisplayName="Log Message - Letter Written" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;INF_501 | WordCoverLetter | Cover letter written for &quot; &amp; job(&quot;JobTitle&quot;).ToString() &amp; &quot; at &quot; &amp; job(&quot;Company&quot;).ToString() &amp; &quot; -&gt; &quot; &amp; LetterPath]">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:LogMessage>
+                              <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the letter in the shared run log so the excel output shows the word stage alongside the web, pdf, excel and outlook stages" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;WordCoverLetter&quot;, &quot;Generate Cover Letter&quot;, &quot;SUCCESS&quot;, job(&quot;Company&quot;).ToString(), &quot;INF_501 | Cover letter saved to &quot; &amp; LetterPath}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Letter Written" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:AddDataRow>
+                            </Sequence>
+                          </TryCatch.Try>
+                          <TryCatch.Catches>
+                            <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                              <ActivityAction x:TypeArguments="s:Exception">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="s:Exception" Name="exLetter" />
+                                </ActivityAction.Argument>
+                                <Sequence sap2010:Annotation.AnnotationText="this letter failed, so it is recorded and the loop moves on to the next job" DisplayName="Catch - Letter Failed" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:LogMessage sap2010:Annotation.AnnotationText="err_503 is a single letter failing. the usual causes are word already having the file open or the copy being blocked, neither of which should cost the user the rest of their letters" DisplayName="Log Message - Letter Failed" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[&quot;ERR_503 | WordCoverLetter | Could not write letter for &quot; &amp; job(&quot;Company&quot;).ToString() &amp; &quot; | &quot; &amp; exLetter.Message]">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:LogMessage>
+                                  <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="keeps the failed letter in the run log so the excel record shows which company was missed and why" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;WordCoverLetter&quot;, &quot;Generate Cover Letter&quot;, &quot;ERROR&quot;, job(&quot;Company&quot;).ToString(), &quot;ERR_503 | &quot; &amp; exLetter.Message}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Letter Failure" sap2010:WorkflowViewState.IdRef="AddDataRow_2">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:AddDataRow>
+                                </Sequence>
+                              </ActivityAction>
+                            </Catch>
+                          </TryCatch.Catches>
+                        </TryCatch>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEach.Body>
+                </ui:ForEach>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence sap2010:Annotation.AnnotationText="no template on disk, so nothing can be generated. reported as a warning rather than an error because the applications themselves already went through" DisplayName="Else - Template Missing" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage sap2010:Annotation.AnnotationText="err_502 means the template was moved or renamed. the path is echoed back so it can be fixed without guessing" DisplayName="Log Message - Template Missing" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn" Message="[&quot;WRN_502 | WordCoverLetter | Cover letter template not found: &quot; &amp; TemplatePathIn]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:LogMessage>
+                <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the missing template so the excel log explains why no letters came out of this run" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;WordCoverLetter&quot;, &quot;Generate Cover Letter&quot;, &quot;WARNING&quot;, &quot;Template&quot;, &quot;WRN_502 | Template not found: &quot; &amp; TemplatePathIn}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Template Missing" sap2010:WorkflowViewState.IdRef="AddDataRow_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:AddDataRow>
+              </Sequence>
+            </If.Else>
+          </If>
+          <Assign sap2010:Annotation.AnnotationText="hands the count back to main for the completion log" DisplayName="Assign - Cover Letter Count Out" sap2010:WorkflowViewState.IdRef="Assign_13">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[CoverLetterCountOut]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[LetterCount]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <Assign sap2010:Annotation.AnnotationText="hands every letter back so sendoutlook can attach the full set. stays an empty list when nothing was written, which sendoutlook tests for before deciding whether to attach anything at all" DisplayName="Assign - Cover Letter Paths Out" sap2010:WorkflowViewState.IdRef="Assign_14">
+            <Assign.To>
+              <OutArgument x:TypeArguments="scg:List(x:String)">[CoverLetterPathsOut]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="scg:List(x:String)">[GeneratedLetters]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+          <ui:LogMessage sap2010:Annotation.AnnotationText="closes the stage with a count, so the output panel shows at a glance whether word did anything" DisplayName="Log Message - Word Stage Complete" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;INF_502 | WordCoverLetter | &quot; &amp; LetterCount.ToString() &amp; &quot; cover letter(s) generated in &quot; &amp; OutputFolder]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="the whole stage failed, most likely because word itself could not be started. the applications were already submitted by this point, so the failure is recorded and swallowed rather than rethrown" DisplayName="Catch - Word Stage Failed" sap2010:WorkflowViewState.IdRef="Sequence_9">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage sap2010:Annotation.AnnotationText="err_501 is the word stage failing outright. usually word is not installed or an old winword process is still holding a document open" DisplayName="Log Message - Word Stage Failed" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error" Message="[&quot;ERR_501 | WordCoverLetter | &quot; &amp; ex.Message]">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:LogMessage>
+              <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="records the stage failure so the excel log shows word was attempted and did not finish" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;WordCoverLetter&quot;, &quot;Generate Cover Letter&quot;, &quot;ERROR&quot;, &quot;Word&quot;, &quot;ERR_501 | &quot; &amp; ex.Message}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Word Stage Failure" sap2010:WorkflowViewState.IdRef="AddDataRow_4">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:AddDataRow>
+              <Assign sap2010:Annotation.AnnotationText="hands back an empty list rather than nothing at all, so sendoutlook sends the summary on its own instead of tripping over a null collection when it looks for attachments" DisplayName="Assign - Clear Cover Letter Paths" sap2010:WorkflowViewState.IdRef="Assign_15">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="scg:List(x:String)">[CoverLetterPathsOut]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String)]</InArgument>
+                </Assign.Value>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Assign>
+              <Assign sap2010:Annotation.AnnotationText="zero letters, so the completion log tells the truth about what the stage managed" DisplayName="Assign - Zero Letter Count" sap2010:WorkflowViewState.IdRef="Assign_16">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Int32">[CoverLetterCountOut]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Int32">[0]</InArgument>
+                </Assign.Value>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Assign>
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+      <TryCatch.Finally>
+        <Sequence sap2010:Annotation.AnnotationText="nothing to release. the word application scope closes the document and the word process itself when each letter finishes" DisplayName="Finally" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </TryCatch.Finally>
+    </TryCatch>
+  </Sequence>
+</Activity>

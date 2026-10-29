@@ -1,0 +1,143 @@
+h<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Job Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">Foothold</span>
+      <span class="brand__tag">early-career jobs, SG</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">&larr; Back to listings</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+  <!-- Populated by script below -->
+</main>
+
+<footer class="site-footer">
+  Foothold is a demo job board built for RPA testing purposes. No real applications are transmitted.
+</footer>
+
+<script src="jobs-data.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const jobId = params.get("id");
+  const job = getJobById(jobId);
+  const mainEl = document.getElementById("main-content");
+
+  if (!job) {
+    mainEl.innerHTML =
+      '<div class="empty-state" id="job-not-found">' +
+        '<h2>Listing not found</h2>' +
+        '<p>This job may have been removed. <a href="index.html">Return to listings</a>.</p>' +
+      '</div>';
+  } else {
+    document.title = job.title + " — Foothold";
+
+    mainEl.innerHTML =
+      '<div class="job-detail" id="job-detail-panel">' +
+        '<div class="job-detail__header">' +
+          '<div>' +
+            '<h1 id="job-title">' + job.title + '</h1>' +
+            '<div class="job-card__company" id="job-company">' + job.company + ' &middot; ' + job.location + '</div>' +
+          '</div>' +
+          '<div class="job-detail__salary" id="job-salary">' + formatSalary(job) + '</div>' +
+        '</div>' +
+
+        '<div class="job-card__meta">' +
+          '<span class="badge" id="job-level">' + job.level + '</span>' +
+          '<span class="badge" id="job-type">' + job.type + '</span>' +
+          '<span class="badge badge-posted" id="job-posted-date">Posted ' + formatPostedDate(job.postedDate) + '</span>' +
+        '</div>' +
+
+        '<h3>About the role</h3>' +
+        '<p id="job-description">' + job.description + '</p>' +
+
+        '<h3>What you\'ll need</h3>' +
+        '<ul id="job-requirements">' +
+          job.requirements.map(function (r) { return '<li>' + r + '</li>'; }).join('') +
+        '</ul>' +
+      '</div>' +
+
+      '<form class="application-form" id="application-form" autocomplete="off">' +
+        '<h2>Apply for this role</h2>' +
+        '<p class="form-sub">Fields marked required must be filled before you can submit.</p>' +
+
+        '<div class="form-row">' +
+          '<div class="field">' +
+            '<label for="applicant-name">Full name *</label>' +
+            '<input type="text" id="applicant-name" name="applicant-name" required />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label for="applicant-email">Email address *</label>' +
+            '<input type="email" id="applicant-email" name="applicant-email" required />' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="form-row">' +
+          '<div class="field">' +
+            '<label for="applicant-phone">Phone number *</label>' +
+            '<input type="tel" id="applicant-phone" name="applicant-phone" required />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label for="applicant-skills">Key skills (optional)</label>' +
+            '<input type="text" id="applicant-skills" name="applicant-skills" placeholder="e.g. Python, SQL, Excel" />' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="field-full">' +
+          '<label for="applicant-coverletter">Cover note (optional)</label>' +
+          '<textarea id="applicant-coverletter" name="applicant-coverletter" placeholder="A few lines on why you\'re a good fit..."></textarea>' +
+        '</div>' +
+
+        '<div class="field-full file-field">' +
+          '<label for="resume-upload">Resume (PDF) *</label>' +
+          '<input type="file" id="resume-upload" name="resume-upload" accept=".pdf" required />' +
+          '<small>Only PDF files are accepted.</small>' +
+        '</div>' +
+
+        '<div class="form-actions">' +
+          '<button type="submit" class="btn btn-primary" id="btn-submit-application">Submit application</button>' +
+          '<span class="form-note" id="submit-note"></span>' +
+        '</div>' +
+      '</form>';
+
+    document.getElementById("application-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("applicant-name").value.trim();
+      const email = document.getElementById("applicant-email").value.trim();
+      const phone = document.getElementById("applicant-phone").value.trim();
+      const resumeFile = document.getElementById("resume-upload").files[0];
+
+      if (!name || !email || !phone || !resumeFile) {
+        document.getElementById("submit-note").textContent = "Please complete all required fields.";
+        return;
+      }
+
+      const ref = "FH-" + Date.now().toString().slice(-6);
+      const query = new URLSearchParams({
+        ref: ref,
+        job: job.title,
+        company: job.company,
+        name: name
+      });
+      window.location.href = "success.html?" + query.toString();
+    });
+  }
+</script>
+
+</body>
+</html>

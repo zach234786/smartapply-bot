@@ -1,0 +1,191 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="GetUserPreferences" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Number of Applications" Name="ApplicationNo" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="When Job listing posted" Name="DatePosted" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Level of employment: Manager, intern etc" Name="JobLevel" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="file path to resume" Name="ResumePath" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="part time, full time etc" Name="EmploymentType" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="minimum salary set by user" Name="MinSalary" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="things to look out for when searching for jobs on the site" Name="JobKeywords" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>GetUserPreferences_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>NPOI.Core</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="asks for everything the search needs up front, so the rest of the process can run through without stopping to ask again" DisplayName="GetUserPreferences - Collect Search Preferences" sap:VirtualizedContainerService.HintSize="894.8000000000001,2418.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch sap2010:Annotation.AnnotationText="wraps the whole prompt sequence. if any dialog fails to open or a value cannot be written back to its output argument, the error is logged with a code and rethrown so main can stop the run cleanly instead of carrying on with half-collected preferences" DisplayName="Try Catch - Collect Search Preferences" sap:VirtualizedContainerService.HintSize="700,2300" sap2010:WorkflowViewState.IdRef="TryCatch_Prefs_1">
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="the seven prompts, asked in the order the rest of the process needs them" DisplayName="Try - Prompt For Preferences" sap:VirtualizedContainerService.HintSize="660,2150" sap2010:WorkflowViewState.IdRef="Sequence_Prefs_2">
+    <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" sap2010:Annotation.AnnotationText="Start prompting user for relevant information, starting with resume path" DisplayName="Input Dialog - Resume File Path" sap:VirtualizedContainerService.HintSize="449.6,318.4" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="Paste the full path to your resume PDF" Title="Resume Path" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[ResumePath]</OutArgument>
+      </ui:InputDialog.Result>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InputDialog>
+    <Assign DisplayName="Assign - Strip Quotes From Resume Path" sap2010:Annotation.AnnotationText="When pasting resume path from file explorer, usually has &quot;C://....&quot;. This strips the inverted commas away so it can recognise the resume path as a valid one" sap:VirtualizedContainerService.HintSize="449.6,252" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[ResumePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[ResumePath.Trim().Trim(""""c)]</InArgument>
+      </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </Assign>
+    <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" sap2010:Annotation.AnnotationText="enter job keywords" DisplayName="Input Dialog - Job Keywords" sap:VirtualizedContainerService.HintSize="449.6,304.8" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="Enter job keywords (e.g. Python, Data Analysis)" Title="Job Keywords" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[JobKeywords]</OutArgument>
+      </ui:InputDialog.Result>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InputDialog>
+    <ui:InputDialog sap2010:Annotation.AnnotationText="how recent a posting has to be. the options are worded exactly as the job board writes them, because select item on the site matches the visible option text rather than any underlying value" Options="{x:Null}" DisplayName="Input Dialog - Date Posted" sap:VirtualizedContainerService.HintSize="449.6,327.2" sap2010:WorkflowViewState.IdRef="InputDialog_8" IsPassword="False" Label="When was the job posted? Pick Any time for no date limit" OptionsString="Any time;Last 24 hours;Last 7 days;Last 2 weeks" Title="Date Posted" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[DatePosted]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <ui:InputDialog sap2010:Annotation.AnnotationText="seniority filter, intern through to senior manager. worded to match the boards own dropdown so the selection cannot silently miss" Options="{x:Null}" DisplayName="Input Dialog - Job Level" sap:VirtualizedContainerService.HintSize="449.6,327.2" sap2010:WorkflowViewState.IdRef="InputDialog_13" IsPassword="False" Label="Job level. Pick Any level to consider every seniority" OptionsString="Any level;Intern;Junior;Executive;Manager;Senior Manager" Title="Job Level" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[JobLevel]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <ui:InputDialog sap2010:Annotation.AnnotationText="internship, part time, full time or contract. again worded to match the sites dropdown exactly" Options="{x:Null}" DisplayName="Input Dialog - Employment Type" sap:VirtualizedContainerService.HintSize="449.6,327.2" sap2010:WorkflowViewState.IdRef="InputDialog_14" IsPassword="False" Label="Employment type. Pick Any type to consider every arrangement" OptionsString="Any type;Internship;Part Time;Full Time;Contract" Title="Employment Type" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[EmploymentType]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <ui:InputDialog sap2010:Annotation.AnnotationText="the lowest monthly salary worth showing. the board keeps a listing when the top of its salary range clears this number" Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog - Minimum Salary" sap:VirtualizedContainerService.HintSize="449.6,273.6" sap2010:WorkflowViewState.IdRef="InputDialog_11" IsPassword="False" Label="Minimum monthly salary (e.g. 3000)" Title="Minimum Salary" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[MinSalary]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <If sap2010:Annotation.AnnotationText="minimum salary is the one preference nothing downstream checks. searchjobsweb types this straight into the boards salary filter, so a value like abc would silently return no matches and look like the bot failed. blank is allowed and means no salary limit; anything non numeric is dropped back to blank and reported" Condition="[Not String.IsNullOrWhiteSpace(MinSalary) AndAlso Not IsNumeric(MinSalary)]" DisplayName="If - Minimum Salary Not Numeric" sap:VirtualizedContainerService.HintSize="620,320" sap2010:WorkflowViewState.IdRef="If_Prefs_1">
+      <If.Then>
+        <Sequence sap2010:Annotation.AnnotationText="drop the bad value and carry on rather than stopping the run for a filter that is optional anyway" DisplayName="Then - Minimum Salary Defaulted To Blank" sap:VirtualizedContainerService.HintSize="480,220" sap2010:WorkflowViewState.IdRef="Sequence_Prefs_3">
+          <ui:LogMessage sap2010:Annotation.AnnotationText="wrn_101 is a non numeric salary being discarded. the run continues with no salary limit, matching the same defaulting style datavalidation uses for the application limit" DisplayName="Log Message - Minimum Salary Not Numeric" sap:VirtualizedContainerService.HintSize="440,90" sap2010:WorkflowViewState.IdRef="LogMessage_Prefs_1" Level="Warn" Message="[&quot;WRN_101 | GetUserPreferences | Minimum salary '&quot; &amp; MinSalary &amp; &quot;' is not a number. Ignoring the salary filter for this run.&quot;]" />
+          <Assign sap2010:Annotation.AnnotationText="blank is what searchjobsweb already treats as no salary limit, so this is the safe fallback" DisplayName="Assign - Clear Invalid Minimum Salary" sap:VirtualizedContainerService.HintSize="440,100" sap2010:WorkflowViewState.IdRef="Assign_Prefs_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[MinSalary]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+    </If>
+    <ui:InputDialog sap2010:Annotation.AnnotationText="caps how many applications the bot will submit in one run. datavalidation checks this is a real positive number and quietly falls back to one if it is not" Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog - Number Of Applications" sap:VirtualizedContainerService.HintSize="449.6,264.8" sap2010:WorkflowViewState.IdRef="InputDialog_12" IsPassword="False" Label="Number of applications:" Title="How many jobs would you like to apply to?" TopMost="False">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[ApplicationNo]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_Prefs_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exPrefs" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="logs which stage of the questioning fell over, then rethrows. rethrow is deliberate: every later stage depends on these answers, so continuing with blanks would apply to the wrong jobs rather than fail visibly" DisplayName="Catch - Preference Prompt Failed" sap:VirtualizedContainerService.HintSize="480,220" sap2010:WorkflowViewState.IdRef="Sequence_Prefs_4">
+              <ui:LogMessage sap2010:Annotation.AnnotationText="err_101 is the preference stage failing outright. mains own try catch around the invoke picks this up and ends the run with a message instead of a raw stack trace" DisplayName="Log Message - Preference Prompt Failed" sap:VirtualizedContainerService.HintSize="440,90" sap2010:WorkflowViewState.IdRef="LogMessage_Prefs_2" Level="Error" Message="[&quot;ERR_101 | GetUserPreferences | Could not collect the search preferences. | &quot; &amp; exPrefs.Message]" />
+              <Rethrow sap2010:Annotation.AnnotationText="hands the original exception back to main so the failure is not swallowed here" DisplayName="Rethrow - Preference Failure To Main" sap:VirtualizedContainerService.HintSize="440,60" sap2010:WorkflowViewState.IdRef="Rethrow_Prefs_1" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+  </Sequence>
+</Activity>

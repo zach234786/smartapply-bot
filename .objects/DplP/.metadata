@@ -1,0 +1,12 @@
+﻿{
+  "Name": "Chrome Foothold — Job Listings",
+  "Type": "App",
+  "Id": "DplPESWLY0yjXnw8xDFj0w",
+  "Reference": "nWJeAzTILUCO8c8b91lHLg/DplPESWLY0yjXnw8xDFj0w",
+  "Created": "2026-07-23T09:17:07.4422312Z",
+  "Updated": "2026-07-23T09:17:07.4422312Z",
+  "CreatedBy": [
+    "UiPath.UIAutomationCore, Version=25.10.35.0, Culture=neutral, PublicKeyToken=null",
+    "UiPath.Platform, Version=26.4.0.0, Culture=neutral, PublicKeyToken=null"
+  ]
+}

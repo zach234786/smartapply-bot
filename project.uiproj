@@ -1,0 +1,6 @@
+{
+  "Name": "SmartApplyBot",
+  "ProjectType": "Process",
+  "Description": "SmartApply Bot is a robot that will optimise the job application process, taking in the user’s information and preferences, extracting skills from their resume and using them to search through different job postings and storing the data in and Excel Sheet and sending email confirmation via Outlook",
+  "MainFile": "Main.xaml"
+}

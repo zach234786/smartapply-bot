@@ -1,0 +1,381 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.MetadataLoadContext</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>NPOI.Core</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="top level of the process. holds the variables that are handed between workflows, so each stage can pass its results on to the next" DisplayName="Main - SmartApply Bot Process" sap:VirtualizedContainerService.HintSize="894.8000000000001,3351.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="RunLog" />
+      <Variable x:TypeArguments="sd:DataTable" Name="ApplicantProfile" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="ValidationPassed" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[New List(Of String)]" Name="FlaggedFields" />
+      <Variable x:TypeArguments="x:String" Name="ResumePath" />
+      <Variable x:TypeArguments="x:String" Name="JobKeywords" />
+      <Variable x:TypeArguments="x:String" Name="DatePosted" />
+      <Variable x:TypeArguments="x:String" Name="JobLevel" />
+      <Variable x:TypeArguments="x:String" Name="EmploymentType" />
+      <Variable x:TypeArguments="x:String" Name="MinSalary" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[New List(Of String)]" Name="ExtractionErrors" />
+      <Variable x:TypeArguments="x:String" Name="ApplicationNo" />
+      <Variable x:TypeArguments="sd:DataTable" Name="JobApplications" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[New List(Of String)]" Name="CoverLetterPaths" />
+      <Variable x:TypeArguments="x:Int32" Default="0" Name="CoverLetterCount" />
+      <Variable x:TypeArguments="x:String" Default="Templates\CoverLetterTemplate.docx" Name="CoverLetterTemplate" />
+      <Variable x:TypeArguments="x:String" Default="zacharygan1705@outlook.com" Name="RecipientEmail" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch sap2010:Annotation.AnnotationText="catches any unhandled error from the whole process so if the bot fails there will be a message saying what error" DisplayName="Try Catch - Whole Process" sap:VirtualizedContainerService.HintSize="555.2,3328" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="everything the bot does sits in here. one wrapper at this level means no stage can fail silently" DisplayName="Try" sap:VirtualizedContainerService.HintSize="553.6,2637.6" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence sap2010:Annotation.AnnotationText="the process in the order it runs: ask the user, read the resume, validate it, then apply for jobs and report on what happened" DisplayName="Sequence - Main Flow" sap:VirtualizedContainerService.HintSize="520,2577.6" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage sap2010:Annotation.AnnotationText="message to tell user bot has started in the output" DisplayName="Log Message - Bot Started" sap:VirtualizedContainerService.HintSize="486.4,205.6" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;SmartApply Bot Started&quot;]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:LogMessage>
+            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="call on the getuserpreferences workflow to run the process and ask for filepath and keywords" DisplayName="GetUserPreferences - Invoke Workflow File (Workflows\GetUserPreferences.xaml)" sap:VirtualizedContainerService.HintSize="486.4,220.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Workflows\GetUserPreferences.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <OutArgument x:TypeArguments="x:String" x:Key="DatePosted">[DatePosted]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="JobLevel">[JobLevel]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="ResumePath">[ResumePath]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="EmploymentType">[EmploymentType]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="MinSalary">[MinSalary]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="JobKeywords">[JobKeywords]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="ApplicationNo">[ApplicationNo]</OutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:InvokeWorkflowFile>
+            <If DisplayName="If - Resume File Exists" sap2010:Annotation.AnnotationText="check if file exists in file explorer " Condition="[System.IO.File.Exists(ResumePath)]" sap:VirtualizedContainerService.HintSize="486.4,2068" sap2010:WorkflowViewState.IdRef="If_4">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap2010:Annotation.AnnotationText="the path points at a real file, so extraction and everything after it can run" DisplayName="Then - Resume File Found" sap:VirtualizedContainerService.HintSize="484.8,1496.8" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="if file does exist invoke read resume and extract data from there" DisplayName="ReadResume - Invoke Workflow File (Workflows\ReadResume.xaml)" sap:VirtualizedContainerService.HintSize="451.2,220.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Workflows\ReadResume.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="MinSalaryIn">[MinSalary]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="EmploymentTypeIn">[EmploymentType]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="JobLevelIn">[JobLevel]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="DatePostedIn">[DatePosted]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="ResumePathIn">[ResumePath]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="JobKeywordsIn">[JobKeywords]</InArgument>
+                      <OutArgument x:TypeArguments="sd:DataTable" x:Key="ApplicantProfile">[ApplicantProfile]</OutArgument>
+                      <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="ExtractionErrors">[ExtractionErrors]</OutArgument>
+                      <OutArgument x:TypeArguments="sd:DataTable" x:Key="RunLog">[RunLog]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:InvokeWorkflowFile>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="once data extracted saved as variable, make sure that data is in a valid format" DisplayName="DataValidation - Invoke Workflow File (Workflows\DataValidation.xaml)" sap:VirtualizedContainerService.HintSize="451.2,220.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Workflows\DataValidation.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="ApplicantProfileIn">[ApplicantProfile]</InArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="ValidationPassed">[ValidationPassed]</OutArgument>
+                      <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="FlaggedFields">[FlaggedFields]</OutArgument>
+                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="RunLog">[RunLog]</InOutArgument>
+                      <InOutArgument x:TypeArguments="x:String" x:Key="ApplicationNo">[ApplicationNo]</InOutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:InvokeWorkflowFile>
+                  <If DisplayName="If - Validation Passed" sap2010:Annotation.AnnotationText="if datavalidation returns validationpassed = true, then proceed with the process and show success message" Condition="[ValidationPassed]" sap:VirtualizedContainerService.HintSize="451.2,622.4" sap2010:WorkflowViewState.IdRef="If_2">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <If.Then>
+                      <Sequence sap2010:Annotation.AnnotationText="the applicant data can be trusted, so the bot is allowed to apply for real jobs and then report on it" DisplayName="Then - Validation Passed" sap:VirtualizedContainerService.HintSize="449.6,204.8" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="the success message" AutoCloseAfter="00:00:00" DisplayName="Message Box - Extraction Successful" sap:VirtualizedContainerService.HintSize="416,144.8" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;Extraction successful!&quot; &amp; Environment.NewLine &amp; &quot;Name: &quot; &amp; ApplicantProfile.Rows(0)(&quot;Name&quot;).ToString() &amp; Environment.NewLine &amp; &quot;Email: &quot; &amp; ApplicantProfile.Rows(0)(&quot;Email&quot;).ToString() &amp; Environment.NewLine &amp; &quot;Phone: &quot; &amp; ApplicantProfile.Rows(0)(&quot;Phone&quot;).ToString() &amp; Environment.NewLine &amp; &quot;Skills: &quot; &amp; ApplicantProfile.Rows(0)(&quot;SkillsMatched&quot;).ToString()]">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:MessageBox>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="calls searchjobsweb to open the job board, apply the users filters, rank the listings by how well each one matches the skills pulled from the resume, and submit applications up to the applicationno limit. sits inside the validationpassed branch on purpose so the bot never submits a real application using applicant data that failed validation" DisplayName="SearchJobsWeb - search, rank and apply to matched jobs" sap:VirtualizedContainerService.HintSize="416,220.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Workflows\SearchJobsWeb.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="JobKeywordsIn">[JobKeywords]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="JobLevelIn">[JobLevel]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="EmploymentTypeIn">[EmploymentType]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="MinSalaryIn">[MinSalary]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="DatePostedIn">[DatePosted]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="ApplicationNoIn">[ApplicationNo]</InArgument>
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="ApplicantProfileIn">[ApplicantProfile]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="ResumePathIn">[ResumePath]</InArgument>
+                            <InOutArgument x:TypeArguments="sd:DataTable" x:Key="RunLog">[RunLog]</InOutArgument>
+                            <OutArgument x:TypeArguments="sd:DataTable" x:Key="JobApplications">[JobApplications]</OutArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="calls wordcoverletter to turn the template into one tailored letter per submitted job. runs after searchjobsweb because it needs to know which jobs actually went through, and before sendoutlook because the letter it produces is what the email attaches. the stage swallows its own errors, so a word failure costs the user their letters but never their email or their excel log" DisplayName="WordCoverLetter - generate a tailored cover letter per job" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Workflows\WordCoverLetter.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="ApplicantProfileIn">[ApplicantProfile]</InArgument>
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="JobApplicationsIn">[JobApplications]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="TemplatePathIn">[CoverLetterTemplate]</InArgument>
+                            <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="CoverLetterPathsOut">[CoverLetterPaths]</OutArgument>
+                            <OutArgument x:TypeArguments="x:Int32" x:Key="CoverLetterCountOut">[CoverLetterCount]</OutArgument>
+                            <InOutArgument x:TypeArguments="sd:DataTable" x:Key="RunLog">[RunLog]</InOutArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="calls sendoutlook to email the user an html summary table of everything that was applied for. runs before logtoexcel so that whether the email succeeded or failed still ends up in the excel run log. coverletterpdf now carries the top ranked job's letter from the word stage, and sendoutlook tests that path before attaching, so the email goes out with the letter when one was written and as a plain summary when none was" DisplayName="SendOutlook - email the application summary" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Workflows\SendOutlook.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="ApplicantProfileIn">[ApplicantProfile]</InArgument>
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="JobApplicationsIn">[JobApplications]</InArgument>
+                            <InArgument x:TypeArguments="scg:List(x:String)" x:Key="CoverLetterPathsIn">[CoverLetterPaths]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="RecipientEmailIn">[RecipientEmail]</InArgument>
+                            <InOutArgument x:TypeArguments="sd:DataTable" x:Key="RunLog">[RunLog]</InOutArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" sap2010:Annotation.AnnotationText="calls logtoexcel last so the jobapplications sheet and the run log are written once everything else has finished reporting. this way the excel file is the complete record of the run including any errors from the word and outlook stages" DisplayName="LogtoExcel - write applications to the extraction log" sap:VirtualizedContainerService.HintSize="416,205.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="Workflows\LogtoExcel.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="JobApplicationsIn">[JobApplications]</InArgument>
+                            <InOutArgument x:TypeArguments="sd:DataTable" x:Key="RunLog">[RunLog]</InOutArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence sap2010:Annotation.AnnotationText="extraction finished but with gaps, so the user is shown what was flagged and no applications are submitted on incomplete data" DisplayName="Else - Validation Warnings" sap:VirtualizedContainerService.HintSize="449.6,234.4" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="display completion message with warnings if anything went wrong in the process so user can diagnose. shows the fields datavalidation flagged together with any error readresume caught, so the one message covers both a field that came out blank and an extraction that failed outright" AutoCloseAfter="00:00:00" DisplayName="Message Box - Extraction Warnings" sap:VirtualizedContainerService.HintSize="416,174.4" sap2010:WorkflowViewState.IdRef="MessageBox_3" Text="[&quot;Extraction complete with warnings:&quot; &amp; Environment.NewLine &amp; String.Join(Environment.NewLine, If(FlaggedFields, New List(Of String)).Concat(If(ExtractionErrors, New List(Of String))))]">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:MessageBox>
+                      </Sequence>
+                    </If.Else>
+                  </If>
+                  <ui:LogMessage sap2010:Annotation.AnnotationText="completion message to be displayed in output" DisplayName="Log Message - Bot Completed" sap:VirtualizedContainerService.HintSize="451.2,196.8" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;SmartApply Bot Completed&quot;]">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:LogMessage>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:Annotation.AnnotationText="nothing at that path, so the run stops here with a clear message instead of failing further in with a confusing error" DisplayName="Else - Resume File Not Found" sap:VirtualizedContainerService.HintSize="484.8,410.4" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage sap2010:Annotation.AnnotationText="error handling if the file isnt a valid format" DisplayName="Log Message - Resume Not Found" sap:VirtualizedContainerService.HintSize="451.2,205.6" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[&quot;ERR_001 | Main | Resume file not found: &quot; + ResumePath]">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:LogMessage>
+                  <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="the error message shown to user" AutoCloseAfter="00:00:00" DisplayName="Message Box - Resume Not Found" sap:VirtualizedContainerService.HintSize="451.2,144.8" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Resume file not found. Please check the path and try again.&quot;]">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:MessageBox>
+                </Sequence>
+              </If.Else>
+            </If>
+          </Sequence>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="the last resort handler. anything none of the workflows caught surfaces here, so the user is always told something went wrong rather than the bot just stopping" DisplayName="Catch - Unhandled Error" sap:VirtualizedContainerService.HintSize="553.6,424" sap2010:WorkflowViewState.IdRef="Sequence_5">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage sap2010:Annotation.AnnotationText="log critical error with its error message for the run record" DisplayName="Log Message - Critical Error" sap:VirtualizedContainerService.HintSize="520,219.2" sap2010:WorkflowViewState.IdRef="LogMessage_4" Message="[&quot;CRITICAL ERROR in Main: &quot; + ex.Message]">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:LogMessage>
+              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" sap2010:Annotation.AnnotationText="tell user what the msg is" AutoCloseAfter="00:00:00" DisplayName="Message Box - Unexpected Error" sap:VirtualizedContainerService.HintSize="520,144.8" sap2010:WorkflowViewState.IdRef="MessageBox_4" Text="[&quot;An unexpected error occurred: &quot; + ex.Message]">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:MessageBox>
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+      <TryCatch.Finally>
+        <Sequence sap2010:Annotation.AnnotationText="nothing to clean up at this level. each workflow closes the applications it opened, so there is no shared state left behind" DisplayName="Finally" sap:VirtualizedContainerService.HintSize="553.6,89.6" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </TryCatch.Finally>
+    </TryCatch>
+  </Sequence>
+</Activity>

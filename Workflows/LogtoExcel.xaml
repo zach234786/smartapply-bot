@@ -1,0 +1,345 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="LogtoExcel" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="JobApplicationsIn" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="RunLog" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>LogtoExcel_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="appends the applications this run submitted to the excel log and flushes the run log, so the workbook ends up as the complete record of what happened" DisplayName="LogtoExcel - Record Submitted Applications" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch sap2010:Annotation.AnnotationText="outer safety net for the whole excel logging step. if anything here fails the run is still recorded and the bot carries on to the email stage, because losing the log is not a good enough reason to lose the applications that were already submitted" DisplayName="Try Catch - Excel Logging" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="the logging body, wrapped by the outer handler" DisplayName="Try" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If sap2010:Annotation.AnnotationText="only open excel if there is actually something to write. checks for nothing as well as an empty table because searchjobsweb returns an empty datatable when no listings matched the filters" Condition="[JobApplicationsIn IsNot Nothing AndAlso JobApplicationsIn.Rows.Count &gt; 0]" DisplayName="If - Any Applications To Log" sap2010:WorkflowViewState.IdRef="If_1">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence sap2010:Annotation.AnnotationText="there is something worth writing, so the workbook is opened" DisplayName="Then - Append Applications And Run Log" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <TryCatch sap2010:Annotation.AnnotationText="nested try catch around the workbook itself. the most common failure here is the file being held open by a leftover excel process, which is a different problem from the table being wrong, so it gets its own handler and its own error code" DisplayName="Try Catch - Workbook Access" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <TryCatch.Try>
+                    <Sequence sap2010:Annotation.AnnotationText="the part that touches the file and can therefore fail on a lock" DisplayName="Try" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:ExcelApplicationScope sap2010:Annotation.AnnotationText="opens the same extraction_log workbook that datavalidation already writes to, so the whole run ends up in one file instead of scattered across several" DisplayName="Excel Application Scope - extraction_log.xlsx" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="Output (Extraction Log excel)\extraction_log.xlsx">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:ExcelApplicationScope.Body>
+                          <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                            </ActivityAction.Argument>
+                            <Sequence sap2010:Annotation.AnnotationText="both sheets are written in one excel session rather than opening the file twice" DisplayName="Do - Workbook Open" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:ExcelAppendRange sap2010:Annotation.AnnotationText="appends every submitted application to the jobapplications sheet. append rather than write range so past runs are kept and the sheet builds into an application history" DataTable="[JobApplicationsIn]" DisplayName="Append Range - JobApplications Sheet" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_1" SheetName="JobApplications">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:ExcelAppendRange>
+                              <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="record the successful write in the runlog before the runlog itself gets appended, so this row makes it into the sheet in the same pass" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;LogtoExcel&quot;, &quot;Write Applications&quot;, &quot;SUCCESS&quot;, &quot;JobApplications&quot;, JobApplicationsIn.Rows.Count.ToString() &amp; &quot; application rows appended to the JobApplications sheet&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Excel Write Success" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:AddDataRow>
+                              <ui:ExcelAppendRange sap2010:Annotation.AnnotationText="flushes everything searchjobsweb and this workflow logged into the runlog sheet. datavalidation already wrote the earlier rows and clears the table after, so only the new rows land here and nothing is duplicated" DataTable="[RunLog]" DisplayName="Append Range - RunLog Sheet" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_2" SheetName="RunLog">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:ExcelAppendRange>
+                            </Sequence>
+                          </ActivityAction>
+                        </ui:ExcelApplicationScope.Body>
+                      </ui:ExcelApplicationScope>
+                    </Sequence>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exExcel" />
+                        </ActivityAction.Argument>
+                        <Sequence sap2010:Annotation.AnnotationText="handles the file being locked without losing the run" DisplayName="Catch - Workbook Not Writable" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage sap2010:Annotation.AnnotationText="err_402 is specifically a workbook access problem, usually the file still being open. logged with its own code so its easy to tell apart from a data problem when reading back the output" DisplayName="Log Message - Workbook Access Failed" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[&quot;ERR_402 | LogtoExcel | Could not write to extraction_log.xlsx: &quot; &amp; exExcel.Message]">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:LogMessage>
+                          <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="keep the failure in the runlog table in memory so the outlook email can still tell the user the excel write did not happen" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;LogtoExcel&quot;, &quot;Excel Write&quot;, &quot;ERROR&quot;, &quot;extraction_log.xlsx&quot;, &quot;ERR_402 | Workbook not writable - &quot; &amp; exExcel.Message}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Workbook Failure" sap2010:WorkflowViewState.IdRef="AddDataRow_2">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:AddDataRow>
+                        </Sequence>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                  <TryCatch.Finally>
+                    <Sequence sap2010:Annotation.AnnotationText="left empty. the excel scope closes the workbook itself when it ends" DisplayName="Finally" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </TryCatch.Finally>
+                </TryCatch>
+                <ui:LogMessage sap2010:Annotation.AnnotationText="confirmation in the output panel so the user can see how many applications were written without opening the workbook" DisplayName="Log Message - Applications Logged" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;INF_401 | LogtoExcel | &quot; &amp; JobApplicationsIn.Rows.Count.ToString() &amp; &quot; application(s) written to extraction_log.xlsx&quot;]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:LogMessage>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence sap2010:Annotation.AnnotationText="no applications this run, so excel is never opened at all" DisplayName="Else - Nothing To Log" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage sap2010:Annotation.AnnotationText="no applications is a normal outcome when the filters were too narrow, so this is a warning and not an error. the bot keeps going and still sends the summary email" DisplayName="Log Message - No Applications Submitted" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn" Message="[&quot;WRN_402 | LogtoExcel | No applications were submitted this run, nothing written to the JobApplications sheet&quot;]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:LogMessage>
+                <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="still record the empty run in the runlog so the output shows the bot reached this stage rather than looking like it never ran" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;LogtoExcel&quot;, &quot;Write Applications&quot;, &quot;WARNING&quot;, &quot;JobApplications&quot;, &quot;WRN_402 | No applications submitted this run&quot;}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Empty Run" sap2010:WorkflowViewState.IdRef="AddDataRow_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:AddDataRow>
+                <TryCatch sap2010:Annotation.AnnotationText="the runlog still has to reach excel even when no applications were submitted. without this the whole diagnostic trail for the search, cover letter and email stages would be thrown away on exactly the runs where the user most needs to see why nothing was applied for" DisplayName="Try Catch - Flush Run Log Only" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <TryCatch.Try>
+                    <Sequence sap2010:Annotation.AnnotationText="opens the workbook purely to append the runlog. the jobapplications sheet is left untouched because there is nothing to add to it" DisplayName="Try" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:ExcelApplicationScope sap2010:Annotation.AnnotationText="same workbook as the main branch, so the run log stays in one file no matter which path the bot took" DisplayName="Excel Application Scope - Run Log Only" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" InstanceCachePeriod="3000" WorkbookPath="Output (Extraction Log excel)\extraction_log.xlsx">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:ExcelApplicationScope.Body>
+                          <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                            </ActivityAction.Argument>
+                            <Sequence sap2010:Annotation.AnnotationText="one append and nothing else" DisplayName="Do - Workbook Open" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:ExcelAppendRange sap2010:Annotation.AnnotationText="flushes the runlog rows that searchjobsweb, sendoutlook and this workflow added after datavalidation cleared the table" DataTable="[RunLog]" DisplayName="Append Range - RunLog Sheet (Empty Run)" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_3" SheetName="RunLog">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:ExcelAppendRange>
+                            </Sequence>
+                          </ActivityAction>
+                        </ui:ExcelApplicationScope.Body>
+                      </ui:ExcelApplicationScope>
+                    </Sequence>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exFlush" />
+                        </ActivityAction.Argument>
+                        <Sequence sap2010:Annotation.AnnotationText="a locked workbook must not take the run down at the very last step, so the failure is logged to the output panel and the workflow finishes normally" DisplayName="Catch - Run Log Flush Failed" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage sap2010:Annotation.AnnotationText="err_403 is a failure to flush the runlog on an empty run, kept separate from err_402 so the two cases can be told apart in the output" DisplayName="Log Message - Run Log Flush Failed" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error" Message="[&quot;ERR_403 | LogtoExcel | Could not append the run log to extraction_log.xlsx: &quot; &amp; exFlush.Message]">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:LogMessage>
+                        </Sequence>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                  <TryCatch.Finally>
+                    <Sequence sap2010:Annotation.AnnotationText="left empty. the excel scope closes the workbook itself when it ends" DisplayName="Finally" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </TryCatch.Finally>
+                </TryCatch>
+              </Sequence>
+            </If.Else>
+          </If>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="catches anything the nested handler did not" DisplayName="Catch - Excel Logging Failed" sap2010:WorkflowViewState.IdRef="Sequence_9">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage sap2010:Annotation.AnnotationText="catches anything the nested handler did not, for example a malformed jobapplications table. logged without rethrowing so main does not abort before the email is sent" DisplayName="Log Message - Logging Step Failed" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error" Message="[&quot;ERR_401 | LogtoExcel | &quot; &amp; ex.Message]">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:LogMessage>
+              <ui:AddDataRow DataRow="{x:Null}" sap2010:Annotation.AnnotationText="record the failure with the err_401 code so it is traceable back to this workflow when reading the runlog" ArrayRow="[{DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;), &quot;LogtoExcel&quot;, &quot;Excel Logging&quot;, &quot;ERROR&quot;, &quot;&quot;, &quot;ERR_401 | &quot; &amp; ex.Message}]" DataTable="[RunLog]" DisplayName="Add Data Row - Log Step Failure" sap2010:WorkflowViewState.IdRef="AddDataRow_4">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:AddDataRow>
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+      <TryCatch.Finally>
+        <Sequence sap2010:Annotation.AnnotationText="nothing to release at this level" DisplayName="Finally" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </TryCatch.Finally>
+    </TryCatch>
+  </Sequence>
+</Activity>
